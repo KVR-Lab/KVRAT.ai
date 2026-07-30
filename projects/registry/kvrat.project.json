@@ -1,0 +1,16 @@
+{
+  "name": "KVRAT.ai",
+  "type": "application",
+  "path": "D:\\KVRAT.ai",
+  "engine": "KVR-Core",
+  "version": "1.0",
+  "status": "registered",
+  "capabilities": [
+    "ai",
+    "agents",
+    "memory",
+    "runtime",
+    "build"
+  ],
+  "created": "2026-07-29"
+}

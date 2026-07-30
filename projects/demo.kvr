@@ -1,0 +1,15 @@
+name: Demo
+
+goal: Build CRM
+
+steps:
+
+  - analyze
+
+  - design
+
+  - generate
+
+  - build
+
+  - run

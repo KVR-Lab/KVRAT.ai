@@ -1,0 +1,11 @@
+project: KVRAT.ai
+
+load_order:
+  - projects/KVRAT.ai/master-context.md
+  - projects/KVRAT.ai/architecture.md
+  - projects/KVRAT.ai/business.md
+  - projects/KVRAT.ai/runtime.md
+  - projects/KVRAT.ai/marketplace.md
+  - projects/KVRAT.ai/erp.md
+  - projects/KVRAT.ai/api.md
+  - projects/KVRAT.ai/roadmap.md

@@ -1,0 +1,3 @@
+﻿"dashboard": "cd apps/kvr-web && pnpm dev",
+"electron": "wait-on http://localhost:3000 && electron electron/main.js",
+"desktop": "concurrently -k \"pnpm dashboard\" \"pnpm electron\""

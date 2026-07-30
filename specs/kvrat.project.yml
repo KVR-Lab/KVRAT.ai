@@ -1,0 +1,41 @@
+﻿project:
+  name: KVRAT.ai
+  version: 1.0
+
+workspace:
+  output: ./workspace/KVRAT.ai
+
+apps:
+
+  - backend:
+      framework: nestjs
+
+  - frontend:
+      framework: nextjs
+
+  - mobile:
+      framework: flutter
+
+database:
+  provider: postgres
+
+ai:
+  provider: openai
+
+modules:
+  - auth
+  - users
+  - workspace
+  - projects
+  - planner
+  - runtime
+  - memory
+  - ai
+  - marketplace
+  - wallet
+
+features:
+  - jwt
+  - swagger
+  - docker
+  - ci

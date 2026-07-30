@@ -1,0 +1,13 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+onlyBuiltDependencies:
+  - electron
+  - electron-builder
+
+allowBuilds:
+  electron: true
+  "@prisma/engines": false
+  prisma: false
+  unrs-resolver: false

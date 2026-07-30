@@ -1,0 +1,90 @@
+{
+      "id": "kvrat.ai",
+      "name": "KVRAT.ai",
+      "version": "2.0",
+      "status": "development",
+    
+      "workspace": {
+        "root": "D:\\KVRAT.ai",
+        "backend": "D:\\KVRAT.ai\\apps\\backend",
+        "frontend": "D:\\KVRAT.ai\\apps\\web",
+        "mobile": "D:\\KVRAT.ai\\apps\\mobile",
+        "landing": "D:\\KVRAT.ai\\apps\\landing"
+      },
+    
+      "brain": {
+        "type": "Multi Agent AI Operating System",
+        "entry": "/ai/brain",
+        "engine": "Brain Orchestrator",
+        "memory": "Memory Service",
+        "planner": "Planner",
+        "runtime": "Runtime",
+        "executor": "Executor"
+      },
+    
+      "architecture": {
+        "style": "Modular Monolith",
+        "backend": "NestJS",
+        "frontend": "Next.js",
+        "mobile": "Flutter",
+        "database": "PostgreSQL",
+        "orm": "TypeORM",
+        "packageManager": "pnpm"
+      },
+    
+      "modules": [
+        "AI",
+        "Brain",
+        "Planner",
+        "Executor",
+        "Runtime",
+        "Reasoning",
+        "Memory",
+        "LLM",
+        "Control Plane",
+        "Knowledge",
+        "Projects",
+        "Marketplace",
+        "Wallet",
+        "Affiliate",
+        "Commission",
+        "Supplier",
+        "Customer",
+        "Orders",
+        "Inventory",
+        "Analytics"
+      ],
+    
+      "llmProviders": [
+        "OpenAI",
+        "Gemini",
+        "Claude",
+        "Ollama"
+      ],
+    
+      "agents": [
+        "ArchitectAgent",
+        "BackendAgent",
+        "FrontendAgent",
+        "DatabaseAgent",
+        "DevOpsAgent",
+        "AIAgent",
+        "PlannerAgent",
+        "ExecutorAgent"
+      ],
+    
+      "commands": [
+        "open_project",
+        "build_project",
+        "run_backend",
+        "run_dashboard",
+        "run_mobile",
+        "generate_module",
+        "generate_agent",
+        "generate_api",
+        "analyze_project",
+        "scan_workspace"
+      ],
+    
+      "goal": "KVR-Core is the autonomous operating system responsible for planning, understanding, monitoring and controlling the KVRAT.ai platform."
+    }

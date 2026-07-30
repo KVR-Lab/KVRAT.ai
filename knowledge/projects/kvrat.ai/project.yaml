@@ -1,0 +1,160 @@
+project:
+  id: kvrat-ai
+  name: KVRAT.ai
+  version: 1.0
+  status: Active
+
+identity:
+  description: >
+    KVRAT.ai is an AI Engineering Operating System.
+    It converts ideas into complete software products
+    through autonomous planning, code generation,
+    execution, monitoring and continuous improvement.
+
+vision:
+  - Build software from natural language.
+  - Operate as an autonomous AI Software Company.
+  - Manage complete product lifecycle.
+  - Scale from MVP to Enterprise.
+
+core:
+  engine: KVR-Core
+  dashboard: KVR-Core Dashboard
+  runtime: Runtime Engine
+  planner: Planner Engine
+  executor: Executor Engine
+  orchestrator: Agent Orchestrator
+  reasoning: Reasoning Engine
+  memory: Memory Engine
+  knowledge: Knowledge Engine
+  llm: Multi LLM Gateway
+
+brains:
+
+  - Product Brain
+  - CTO Brain
+  - Strategy Brain
+  - Hybrid Brain
+  - System Brain
+
+supported_llm:
+
+  - OpenAI
+  - Ollama
+  - Claude
+  - Gemini
+
+agents:
+
+  - Architect Agent
+  - Backend Agent
+  - Frontend Agent
+  - Mobile Agent
+  - Database Agent
+  - DevOps Agent
+  - Documentation Agent
+  - QA Agent
+  - AI Agent
+
+languages:
+
+  - TypeScript
+  - JavaScript
+  - Python
+  - Dart
+  - SQL
+
+frameworks:
+
+  backend:
+    - NestJS
+
+  frontend:
+    - Next.js
+
+  mobile:
+    - Flutter
+
+database:
+
+  - PostgreSQL
+  - SQLite
+
+tools:
+
+  - Cursor
+  - Git
+  - PNPM
+  - Docker
+  - PowerShell
+
+architecture:
+
+  style: Modular Monolith
+
+  modules:
+
+    - Control Plane
+    - Runtime
+    - AI
+    - Brain
+    - Planner
+    - Executor
+    - Knowledge
+    - Memory
+    - Agents
+    - Registry
+    - Command
+    - Workspace
+
+workspace:
+
+  root: D:\KVRAT.ai
+
+repositories:
+
+  project: D:\KVRAT.ai
+  engine: D:\kvr-core
+  dashboard: D:\kvr-core-dashboard
+
+control:
+
+  open_project_command:
+
+    cursor D:\KVRAT.ai
+
+dashboard:
+
+  port: 3001
+
+api:
+
+  port: 3000
+
+goals:
+
+  - Convert ideas into products.
+  - Generate production-ready code.
+  - Manage repositories.
+  - Execute development plans.
+  - Monitor project health.
+  - Generate documentation.
+  - Build releases.
+  - Deploy automatically.
+
+current_state:
+
+  backend: Completed
+  runtime: Completed
+  planner: Completed
+  executor: Completed
+  dashboard: In Progress
+  electron: In Progress
+
+future:
+
+  - Autonomous Development
+  - Self Healing
+  - Continuous Planning
+  - Marketplace Integration
+  - AI Company Mode

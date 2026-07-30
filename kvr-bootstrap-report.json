@@ -1,0 +1,13 @@
+﻿{
+    "modules":  [
+                    "Core",
+                    "Runtime",
+                    "Events",
+                    "Plugins",
+                    "Registry",
+                    "Chat"
+                ],
+    "created":  "2026-07-11 00:42:40",
+    "name":  "K.V.R",
+    "version":  "1.0.0"
+}
