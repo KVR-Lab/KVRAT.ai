@@ -2,82 +2,90 @@
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans">
+    <div className="min-h-screen antialiased selection:bg-[#00E676] selection:text-[#121212] bg-white text-[#0F172A] dir-rtl" dir="rtl">
+      
       {/* Navbar */}
-      <header className="border-b border-gray-200 py-4 px-6 md:px-12 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur-sm z-50">
-        <div className="flex items-center space-x-3 space-x-reverse">
-          <span className="text-xl md:text-2xl font-black tracking-tight text-gray-900">
-            Nail Golden & <span style={{ color: '#00E676' }}>KVRAT.ai</span>
-          </span>
+      <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-[#E2E8F0] px-6 py-4 shadow-sm">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <div className="w-3 h-3 rounded-full bg-[#00E676] shadow-[0_0_10px_#00E676]"></div>
+            <span className="text-xl font-black tracking-tight text-[#0F172A]">
+              Nail Golden <span className="text-[#00E676]">&amp;</span> KVRAT.ai
+            </span>
+          </div>
+          <div className="flex items-center gap-4">
+            <button className="bg-[#0F172A] hover:bg-black text-white font-bold px-6 py-2.5 rounded-xl transition-all shadow-md hover:shadow-lg text-sm">
+              دخول المنظومة
+            </button>
+          </div>
         </div>
-        <nav className="hidden md:flex space-x-8 space-x-reverse text-sm font-semibold text-gray-600">
-          <a href="#solutions" className="hover:text-black transition">الخدمات والحلول</a>
-          <a href="#forecasting" className="hover:text-black transition">التنبؤ الذكي</a>
-          <a href="#regions" className="hover:text-black transition">النطاق الجغرافي</a>
-        </nav>
-      </header>
+      </nav>
 
       {/* Hero Section */}
-      <section className="max-w-5xl mx-auto px-6 pt-20 pb-16 text-center">
-        <div className="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-wide rounded-full border border-gray-200 bg-gray-50 text-gray-800">
-          منظومة سلاسل الإمداد والحلول اللوجستية الذكية
-        </div>
-        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900 mb-6 leading-tight">
-          إدارة وتوزيع التجارة <br className="hidden sm:block" />
-          بتقنيات <span style={{ color: '#00E676' }}>التنبؤ الذكي</span>
+      <header className="py-24 px-6 text-center max-w-5xl mx-auto">
+        <span className="inline-block bg-[#F8FAFC] text-[#0F172A] border border-[#E2E8F0] text-xs font-bold px-4 py-1.5 rounded-full mb-6 shadow-sm">
+          قيادة وتنفيذ سيادي | K.V.R Executive Authority
+        </span>
+        
+        <h1 className="text-4xl md:text-6xl font-black text-[#0F172A] leading-tight mb-6 tracking-tight">
+          المنظومة الذكية للتجارة الإلكترونية متعددة الموردين والتنبؤ <span className="text-[#00E676] font-black">الذكي</span> بالطلب
         </h1>
-        <p className="text-base md:text-xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed">
-          منصة متكاملة لخدمة قطاعات B2B و B2C للمنتجات النهائية، تُمكن التجار والشركات من تتبع الطلبات، تحسين المخزون، ورفع كفاءة التوريد في بنها، القاهرة، الجيزة، والقليوبية.
+        
+        <p className="text-[#475569] text-lg md:text-xl max-w-3xl mx-auto leading-relaxed mb-10">
+          ربط وإدارة عمليات البيع للمنتجات النهائية بنظامي <strong className="font-bold text-[#0F172A]">B2B</strong> و <strong className="font-bold text-[#0F172A]">B2C</strong> وتمكين الموردين والتجار عبر بنها، القاهرة، الجيزة، والقليوبية بأحدث تقنيات التنبؤ بسلاسل الإمداد.
         </p>
 
-        <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <a
-            href="#register"
-            className="px-8 py-3.5 rounded-lg text-white font-bold transition shadow-sm hover:opacity-95 text-center"
-            style={{ backgroundColor: '#121212' }}
-          >
-            تسجيل منشأة جديدة
-          </a>
-          <a
-            href="#solutions"
-            className="px-8 py-3.5 rounded-lg border border-gray-300 font-bold text-gray-800 hover:bg-gray-50 transition text-center"
-          >
-            استكشف المنظومة
-          </a>
+        {/* Banner */}
+        <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-6 rounded-2xl max-w-2xl mx-auto mb-10 text-right shadow-sm">
+          <h3 className="text-base font-bold text-[#0F172A] mb-1 flex items-center gap-2">
+            <span className="text-[#00E676]">●</span> نطاق العمليات المعتمد
+          </h3>
+          <p className="text-sm text-[#475569] leading-relaxed">
+            تختص المنصة بالمنتجات النهائية والتجارة المباشرة للشركات والأفراد، مع ربط محركات التنبؤ وسلاسل الإمداد الذكية لضمان أعلى عائد استثماري.
+          </p>
         </div>
-      </section>
 
-      {/* Features Section */}
-      <section id="solutions" className="bg-gray-50 py-16 px-6 border-t border-b border-gray-200">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-right">
+        <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <button className="bg-[#00E676] hover:bg-[#00C853] text-[#121212] font-black px-8 py-4 rounded-xl transition-all shadow-lg hover:shadow-xl text-base">
+            انضم للمنظومة الآن
+          </button>
+        </div>
+      </header>
+
+      {/* Key Modules / Features Section */}
+      <section className="py-16 px-6 max-w-7xl mx-auto border-t border-[#E2E8F0]">
+        <div className="grid md:grid-cols-3 gap-8">
           
-          <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm">
-            <div className="w-12 h-12 rounded-lg mb-6 flex items-center justify-center font-bold text-white text-lg" style={{ backgroundColor: '#00E676' }}>
+          {/* Card 1 */}
+          <div className="bg-white border border-[#E2E8F0] p-8 rounded-2xl shadow-sm hover:border-[#00E676] transition-all">
+            <div className="w-10 h-10 rounded-lg bg-[#F8FAFC] flex items-center justify-center mb-6 border border-[#E2E8F0] text-[#121212] font-bold">
               01
             </div>
-            <h3 className="text-xl font-bold mb-3 text-gray-900">تجارة B2B & B2C</h3>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              بيع وتوزيع المنتجات النهائية للمؤسسات والأفراد عبر لوحة تحكم موحدة ومتابعة لحظية حركة العمليات.
+            <h3 className="text-lg font-bold text-[#0F172A] mb-2">التجارة متعددة الموردين (B2B &amp; B2C)</h3>
+            <p className="text-sm text-[#475569] leading-relaxed">
+              إدارة شاملة للمنتجات النهائية، عمليات البيع، والربط المباشر بين الموردين والتجار والعملاء.
             </p>
           </div>
 
-          <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm">
-            <div className="w-12 h-12 rounded-lg mb-6 flex items-center justify-center font-bold text-white text-lg" style={{ backgroundColor: '#121212' }}>
+          {/* Card 2 */}
+          <div className="bg-white border border-[#E2E8F0] p-8 rounded-2xl shadow-sm hover:border-[#00E676] transition-all">
+            <div className="w-10 h-10 rounded-lg bg-[#F8FAFC] flex items-center justify-center mb-6 border border-[#E2E8F0] text-[#121212] font-bold">
               02
             </div>
-            <h3 className="text-xl font-bold mb-3 text-gray-900">التنبؤ الذكي بالطلب</h3>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              تحليل حركة المبيعات وتوقع احتياجات السوق والمخزون بدقة عالية للحد من النقص أو الهدر.
+            <h3 className="text-lg font-bold text-[#0F172A] mb-2">التنبؤ الذكي بالطلب</h3>
+            <p className="text-sm text-[#475569] leading-relaxed">
+              خوارزميات تحليل بيانات السلوك والطلب المحلي لتحديد حجم الاحتياج بدقة متناهية.
             </p>
           </div>
 
-          <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm">
-            <div className="w-12 h-12 rounded-lg mb-6 flex items-center justify-center font-bold text-white text-lg" style={{ backgroundColor: '#00E676' }}>
+          {/* Card 3 */}
+          <div className="bg-white border border-[#E2E8F0] p-8 rounded-2xl shadow-sm hover:border-[#00E676] transition-all">
+            <div className="w-10 h-10 rounded-lg bg-[#F8FAFC] flex items-center justify-center mb-6 border border-[#E2E8F0] text-[#121212] font-bold">
               03
             </div>
-            <h3 className="text-xl font-bold mb-3 text-gray-900">التغطية الإقليمية</h3>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              ربط ونقل لوجستي متكامل يغطي نطاقات بنها، القليوبية، القاهرة، والجيزة بكفاءة عالية.
+            <h3 className="text-lg font-bold text-[#0F172A] mb-2">سلاسل الإمداد والتأمين</h3>
+            <p className="text-sm text-[#475569] leading-relaxed">
+              تتبع لحظي وإدارة ذكية للمخزون والتوصيل المباشر عبر المحافظات المستهدفة.
             </p>
           </div>
 
@@ -85,9 +93,10 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-6 text-center text-sm text-gray-500 border-t border-gray-200 bg-white">
-        <p>© 2026 Nail Golden & KVRAT.ai — جميع الحقوق محفوظة.</p>
+      <footer className="py-8 px-6 border-t border-[#E2E8F0] text-center text-xs text-[#475569]">
+        <p>© 2026 Nail Golden &amp; KVRAT.ai. جميع الحقوق محفوظة. إشراف وتنفيذ K.V.R.</p>
       </footer>
+
     </div>
   );
-}
+         }
