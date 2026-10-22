@@ -2,10 +2,10 @@
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen antialiased selection:bg-[#00E676] selection:text-[#121212] bg-white text-[#0F172A] dir-rtl" dir="rtl">
+    <div className="min-h-screen antialiased selection:bg-[#00E676] selection:text-[#121212] bg-white text-[#0F172A]" dir="rtl">
       
       {/* Navbar */}
-      <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-[#E2E8F0] px-6 py-4 shadow-sm">
+      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-[#E2E8F0] px-6 py-4 shadow-sm">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-3">
             <div className="w-3 h-3 rounded-full bg-[#00E676] shadow-[0_0_10px_#00E676]"></div>
@@ -99,4 +99,4 @@ export default function LandingPage() {
 
     </div>
   );
-         }
+}
