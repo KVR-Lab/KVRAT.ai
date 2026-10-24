@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Nail Golden & KVRAT.ai | منظومة التجارة وسلاسل الإمداد',
-  description: 'المنظومة الرقمية لربط وإدارة المنتجات النهائية بنظامي B2B وB2C، مع أدوات مستهدفة للتنبؤ بالطلب وإدارة سلاسل الإمداد الذكية في السوق المصري.',
+  title: 'KVRAT.ai | Business & Consumer Marketplace',
+  description: 'منظومة تجارية متعددة القطاعات تربط أصحاب المصانع والتجار والموردين والمسوقين بالعمولة والمستهلكين. اكتشف المنتجات واطلب عروض الأسعار وتواصل مباشرة.',
+  applicationName: 'KVRAT.ai',
+  keywords: ['KVRAT.ai', 'B2B', 'B2C', 'المصانع', 'الموردون', 'التجار', 'المسوقون بالعمولة', 'المنتجات'],
 };
 
 export default function RootLayout({
