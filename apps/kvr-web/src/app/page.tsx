@@ -71,7 +71,7 @@ export default function HomePage() {
         <div className="hero-copy">
           <span className="eyebrow"><span className="eyebrow-dot" /> تحت إشراف وإدارة K.V.R الدولية</span>
           <h1>Nail Golden &amp; KVRAT.ai<br /><span>نربط الأسواق ونمكّن التجارة.</span></h1>
-          <p className="hero-lead">المنظومة الرقمية لربط وإدارة المنتجات النهائية بنظامي B2B وB2C، مع التركيز في المرحلة الأولى على بنها والقاهرة والجيزة والقليوبية، والاستفادة من أدوات التنبؤ بالطلب وإدارة سلاسل الإمداد الذكية.</p>
+          <p className="hero-lead">منصة تستهدف ربط المصانع والموردين والتجار بالأسواق، وتنظيم عرض المنتجات النهائية والتواصل التجاري بين الشركات والعملاء. نبدأ من بنها والقاهرة والجيزة والقليوبية، ونتوسع تدريجيًا مع جاهزية الخدمات.</p>
           <div className="hero-actions">
             <a className="button button-primary" href="#register">ابدأ تسجيل بيانات شركتك <span aria-hidden="true">←</span></a>
             <a className="button button-secondary" href="#how-it-works">اعرف آلية العمل</a>
@@ -101,7 +101,7 @@ export default function HomePage() {
         <div className="section-heading">
           <span className="eyebrow">امتيازات الموردين والتجار المبكرين</span>
           <h2>ابدأ مبكرًا مع <span>KVRAT.ai</span></h2>
-          <p>تستهدف هذه المرحلة بناء شبكة شركاء تجاريين وتجهيز ملفات الموردين قبل التوسع التشغيلي للمنصة.</p>
+          <p>نجمع اهتمام المصانع والموردين والتجار مبكرًا للتعرّف على نشاطهم والتواصل معهم عند جاهزية خدمات المنصة.</p>
         </div>
         <div className="workflow-grid">
           <article className="workflow-card">
@@ -117,7 +117,7 @@ export default function HomePage() {
           <article className="workflow-card">
             <div className="step-top"><span className="step-number">03</span><span className="step-line" /></div>
             <h3>تجهيز ملف شركتك</h3>
-            <p>سجّل بيانات الشركة ومجالات المنتجات والتغطية الجغرافية لتجهيز ملفك ومراجعته قبل إتاحة المنتجات عند إطلاق الخدمات.</p>
+            <p>ابدأ ببيانات بسيطة، ويمكن استكمال تفاصيل المنتجات والتوزيع لاحقًا عند التواصل معك.</p>
           </article>
         </div>
       </section>
@@ -132,7 +132,7 @@ export default function HomePage() {
           <article className="workflow-card">
             <div className="step-top"><span className="step-number">B2B</span><span className="step-line" /></div>
             <h3>تطبيق الموردين</h3>
-            <p>تصور لإدارة المخزون والطلبات والأسعار وبيانات المنتجات للشركات والموردين.</p>
+            <p>تستهدف المنصة إتاحة أدوات تساعد المورد على تنظيم بيانات منتجاته وأسعاره وطلباته عند تفعيل الخدمة.</p>
           </article>
           <article className="workflow-card">
             <div className="step-top"><span className="step-number">AI</span><span className="step-line" /></div>
@@ -167,7 +167,7 @@ export default function HomePage() {
 
       <section className="supplier-band" id="for-suppliers">
         <div><span className="eyebrow eyebrow-light">للمصانع والموردين والتجار</span><h2>عرّفنا بنشاطك الآن،<br />واستعد للخطوة التالية.</h2></div>
-        <p>سجّل بيانات شركتك ومجالات التوريد. تساعدنا المعلومات على فهم احتياجاتك والتواصل معك بشأن مراحل تجهيز المنصة وفرص عرض المنتجات مستقبلًا.</p>
+        <p>أدخل اسمك واسم شركتك ورقم هاتفك فقط للبدء. يمكنك إضافة نوع النشاط والمحافظة إن رغبت، وسنتواصل معك لاحقًا لاستكمال التفاصيل.</p>
         <a className="button button-white" href="#register">تسجيل بيانات المورد <span aria-hidden="true">←</span></a>
       </section>
 
@@ -175,49 +175,42 @@ export default function HomePage() {
         <div className="form-intro">
           <span className="eyebrow">تسجيل اهتمام الموردين</span>
           <h2>ابدأ بملف شركتك</h2>
-          <p>املأ البيانات الأساسية بدقة. الحقول المعلّمة بنجمة مطلوبة، ويمكنك إضافة تفاصيل المنتجات والتغطية الجغرافية لمساعدتنا على فهم نشاطك.</p>
+          <p>التسجيل المبدئي بسيط: ثلاثة حقول مطلوبة فقط — اسم المسؤول، واسم الشركة، ورقم الهاتف. بقية التفاصيل اختيارية ويمكن استكمالها لاحقًا.</p>
           <div className="form-aside">
-            <div className="aside-icon">01</div><div><b>بيانات واضحة</b><p>اسم الشركة ووسائل التواصل ونوع النشاط.</p></div>
+            <div className="aside-icon">01</div><div><b>بيانات واضحة</b><p>اسمك واسم الشركة ورقم هاتف للتواصل.</p></div>
           </div>
           <div className="form-aside">
-            <div className="aside-icon">02</div><div><b>مجالات التوريد</b><p>اختر الفئات التي تناسب منتجاتك وخدماتك.</p></div>
+            <div className="aside-icon">02</div><div><b>مجالات التوريد</b><p>يمكنك اختيار مجال التوريد الآن أو توضيحه عند التواصل.</p></div>
           </div>
           <div className="form-aside">
-            <div className="aside-icon">03</div><div><b>الخطوة التالية</b><p>سيتم توضيح مسار المراجعة والتسجيل النهائي عند تفعيل الخدمة.</p></div>
+            <div className="aside-icon">03</div><div><b>الخطوة التالية</b><p>سنوضح الخطوات التالية عند التواصل معك.</p></div>
           </div>
         </div>
 
         <form className="supplier-form" onSubmit={handleSubmit}>
-          <div className="form-heading"><div><span className="form-kicker">SUPPLIER PROFILE</span><h3>بيانات المورد أو الشركة</h3></div><span className="required-note">* حقول مطلوبة</span></div>
+          <div className="form-heading"><div><span className="form-kicker">SUPPLIER PROFILE</span><h3>سجّل اهتمامك كمورد</h3><p>ابدأ بثلاثة بيانات فقط، واستكمل الباقي لاحقًا.</p></div><span className="required-note">* مطلوب</span></div>
           <div className="field-grid">
             <label>اسم المسؤول <em>*</em><input required value={form.fullName} onChange={(e) => update("fullName", e.target.value)} placeholder="الاسم بالكامل" autoComplete="name" /></label>
             <label>اسم الشركة أو المصنع <em>*</em><input required value={form.companyName} onChange={(e) => update("companyName", e.target.value)} placeholder="الاسم التجاري" autoComplete="organization" /></label>
-            <label>نوع النشاط <em>*</em><select required value={form.companyType} onChange={(e) => update("companyType", e.target.value)}><option value="">اختر نوع النشاط</option>{companyTypes.map((item) => <option key={item}>{item}</option>)}</select></label>
+            <label>نوع النشاط <span className="optional-note">(اختياري)</span><select value={form.companyType} onChange={(e) => update("companyType", e.target.value)}><option value="">يمكنك الاختيار لاحقًا</option>{companyTypes.map((item) => <option key={item}>{item}</option>)}</select></label>
             <label>رقم الهاتف <em>*</em><input required type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} placeholder="01xxxxxxxxx" autoComplete="tel" dir="ltr" /></label>
-            <label>رقم واتساب<input type="tel" value={form.whatsapp} onChange={(e) => update("whatsapp", e.target.value)} placeholder="إن كان مختلفًا" dir="ltr" /></label>
-            <label>البريد الإلكتروني<input type="email" value={form.email} onChange={(e) => update("email", e.target.value)} placeholder="name@company.com" autoComplete="email" dir="ltr" /></label>
-            <label>المحافظة <em>*</em><select required value={form.governorate} onChange={(e) => update("governorate", e.target.value)}><option value="">اختر المحافظة</option>{governorates.map((item) => <option key={item}>{item}</option>)}</select></label>
-            <label>المدينة أو المنطقة<input value={form.city} onChange={(e) => update("city", e.target.value)} placeholder="المدينة / المنطقة الصناعية" /></label>
-            <label className="field-full">الموقع الإلكتروني أو صفحة الشركة<input type="url" value={form.website} onChange={(e) => update("website", e.target.value)} placeholder="https://" dir="ltr" /></label>
+            <label>رقم واتساب <span className="optional-note">(اختياري)</span><input type="tel" value={form.whatsapp} onChange={(e) => update("whatsapp", e.target.value)} placeholder="إن كان مختلفًا" dir="ltr" /></label>
+            <label>المحافظة <span className="optional-note">(اختياري)</span><select value={form.governorate} onChange={(e) => update("governorate", e.target.value)}><option value="">اختر لاحقًا</option>{governorates.map((item) => <option key={item}>{item}</option>)}</select></label>
           </div>
 
           <div className="form-divider" />
-          <div className="subsection-title"><h4>مجالات ومنتجات التوريد</h4><p>اختر مجالًا واحدًا على الأقل إن أمكن.</p></div>
+          <div className="subsection-title"><h4>مجال التوريد (اختياري)</h4><p>اختياري تمامًا؛ يمكنك تخطي هذا القسم واستكماله لاحقًا.</p></div>
           <div className="category-grid">
             {categories.map((category) => <label className="check-option" key={category}><input type="checkbox" checked={selectedCategories.includes(category)} onChange={(e) => setSelectedCategories((current) => e.target.checked ? [...current, category] : current.filter((item) => item !== category))} /><span className="custom-check">✓</span><span>{category}</span></label>)}
           </div>
-          <div className="field-grid field-grid-bottom">
-            <label className="field-full">أهم المنتجات أو الخدمات<input value={form.products} onChange={(e) => update("products", e.target.value)} placeholder="اكتب أسماء المنتجات أو خطوط الإنتاج الرئيسية" /></label>
-            <label>نطاق التغطية أو التوزيع<input value={form.coverage} onChange={(e) => update("coverage", e.target.value)} placeholder="مثال: جميع محافظات مصر" /></label>
-            <label>ملاحظات إضافية<input value={form.notes} onChange={(e) => update("notes", e.target.value)} placeholder="الطاقة الإنتاجية، الحد الأدنى للطلب..." /></label>
-          </div>
+          
           <div className="consent-list">
-            <label><input type="checkbox" required checked={form.privacyConsent} onChange={(e) => update("privacyConsent", e.target.checked)} /><span>أقر بصحة البيانات التي أدخلتها، وأوافق على استخدامها للتواصل بشأن تسجيل الموردين وفق سياسة الخصوصية عند نشرها. <em>*</em></span></label>
+            <label><input type="checkbox" required checked={form.privacyConsent} onChange={(e) => update("privacyConsent", e.target.checked)} /><span>أوافق على استخدام بيانات التواصل التي أدخلتها للرد على اهتمامي بالتسجيل، وفق سياسة الخصوصية المنشورة قبل تفعيل حفظ البيانات. <em>*</em></span></label>
             <label><input type="checkbox" checked={form.contactConsent} onChange={(e) => update("contactConsent", e.target.checked)} /><span>أوافق على التواصل معي بخصوص استكمال ملف المورد ومنتجاته.</span></label>
           </div>
-          <button className="button button-primary submit-button" type="submit">مراجعة بيانات النموذج <span aria-hidden="true">←</span></button>
+          <button className="button button-primary submit-button" type="submit">متابعة التسجيل المبدئي <span aria-hidden="true">←</span></button>
           {notice && <p className="form-notice" role="status">{notice}</p>}
-          <p className="form-footnote">تنبيه: النموذج في هذه النسخة واجهة أولية فقط؛ لم يتم توصيله بخدمة خلفية لحفظ البيانات بعد.</p>
+          <p className="form-footnote">تنبيه مهم: هذا النموذج غير متصل حاليًا بخدمة تحفظ البيانات أو ترسلها. لا تعتبر تعبئته تسجيلًا مكتملًا حتى يتم تفعيل الإرسال الفعلي.</p>
         </form>
       </section>
 
