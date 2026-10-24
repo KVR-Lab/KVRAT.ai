@@ -227,7 +227,6 @@ export default function HomePage() {
             <label>اسم الشركة أو المصنع <em>*</em><input required value={form.companyName} onChange={(e) => update("companyName", e.target.value)} placeholder="الاسم التجاري" autoComplete="organization" /></label>
             <label>نوع النشاط <span className="optional-note">(اختياري)</span><select value={form.companyType} onChange={(e) => update("companyType", e.target.value)}><option value="">يمكنك الاختيار لاحقًا</option>{companyTypes.map((item) => <option key={item}>{item}</option>)}</select></label>
             <label>رقم الهاتف <em>*</em><input required type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} placeholder="01xxxxxxxxx" autoComplete="tel" dir="ltr" /></label>
-            <label>رقم واتساب <span className="optional-note">(اختياري)</span><input type="tel" value={form.whatsapp} onChange={(e) => update("whatsapp", e.target.value)} placeholder="إن كان مختلفًا" dir="ltr" /></label>
             <label>المحافظة <span className="optional-note">(اختياري)</span><select value={form.governorate} onChange={(e) => update("governorate", e.target.value)}><option value="">اختر لاحقًا</option>{governorates.map((item) => <option key={item}>{item}</option>)}</select></label>
           </div>
 
