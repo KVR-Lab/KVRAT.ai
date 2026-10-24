@@ -68,7 +68,7 @@ export default function HomePage() {
     const escapeCsv = (value: string) => `"${String(value).replace(/"/g, '""')}"`;
     const headers = Object.keys(record);
     const values = Object.values(record);
-    const csv = "\\uFEFF" + [headers, values].map((row) => row.map((value) => escapeCsv(String(value))).join(",")).join("\r\n");
+    const csv = "\uFEFF" + [headers, values].map((row) => row.map((value) => escapeCsv(String(value))).join(",")).join("\r\n");
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
