@@ -37,7 +37,6 @@ const workflow = [
 export default function HomePage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [notice, setNotice] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({
     fullName: "", companyName: "", companyType: "", phone: "", whatsapp: "",
     email: "", governorate: "", city: "", website: "", products: "",
@@ -48,41 +47,40 @@ export default function HomePage() {
     setForm((current) => ({ ...current, [field]: value }));
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setNotice("");
-    setIsSubmitting(true);
-    try {
-      const response = await fetch("/api/supplier-leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fullName: form.fullName.trim(),
-          companyName: form.companyName.trim(),
-          phone: form.phone.trim(),
-          companyType: form.companyType,
-          governorate: form.governorate,
-          categories: selectedCategories,
-          privacyConsent: form.privacyConsent,
-          contactConsent: form.contactConsent,
-        }),
-      });
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(result.error || "تعذر حفظ البيانات الآن. حاول مرة أخرى لاحقًا.");
-      }
-      setNotice("تم حفظ بيانات اهتمامك بنجاح. سيحتفظ فريق KVRAT.ai ببياناتك للتواصل معك بشأن الخطوات التالية.");
-      setForm({
-        fullName: "", companyName: "", companyType: "", phone: "", whatsapp: "",
-        email: "", governorate: "", city: "", website: "", products: "",
-        coverage: "", notes: "", privacyConsent: false, contactConsent: false,
-      });
-      setSelectedCategories([]);
-    } catch (error) {
-      setNotice(error instanceof Error ? error.message : "حدث خطأ غير متوقع. حاول مرة أخرى.");
-    } finally {
-      setIsSubmitting(false);
-    }
+
+    // This version intentionally creates a CSV on the submitter's device.
+    // It does not send or centrally store any personal data.
+    const record = {
+      "تاريخ التسجيل على الجهاز": new Date().toLocaleString("ar-EG"),
+      "اسم المسؤول": form.fullName.trim(),
+      "اسم الشركة أو المصنع": form.companyName.trim(),
+      "رقم الهاتف": form.phone.trim(),
+      "نوع النشاط": form.companyType,
+      "المحافظة": form.governorate,
+      "مجالات التوريد": selectedCategories.join("، "),
+      "الموافقة على استخدام البيانات": form.privacyConsent ? "نعم" : "لا",
+      "الموافقة على التواصل": form.contactConsent ? "نعم" : "لا",
+    };
+
+    const escapeCsv = (value: string) => `"${String(value).replace(/"/g, '""')}"`;
+    const headers = Object.keys(record);
+    const values = Object.values(record);
+    const csv = "\\uFEFF" + [headers, values].map((row) => row.map((value) => escapeCsv(String(value))).join(",")).join("\r\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const date = new Date().toISOString().replace(/[:.]/g, "-");
+    link.href = url;
+    link.download = `KVRAT-supplier-interest-${date}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+
+    setNotice("تم تجهيز ملف CSV وتنزيله على هذا الجهاز. مهم: لم تُرسل البيانات إلى KVRAT.ai ولم تُحفظ مركزيًا. إذا أردت تسجيل اهتمامك لدى الفريق، أرسل الملف يدويًا إلى قناة التواصل الرسمية عند إعلانها.");
   }
 
   return (
@@ -216,7 +214,7 @@ export default function HomePage() {
             <div className="aside-icon">02</div><div><b>مجالات التوريد</b><p>يمكنك اختيار مجال التوريد الآن أو توضيحه عند التواصل.</p></div>
           </div>
           <div className="form-aside">
-            <div className="aside-icon">03</div><div><b>الخطوة التالية</b><p>سنوضح الخطوات التالية عند التواصل معك.</p></div>
+            <div className="aside-icon">03</div><div><b>الخطوة التالية</b><p>بعد تنزيل الملف، لا يُعدّ ذلك تسجيلًا مستلمًا لدى KVRAT.ai؛ يلزم إرساله يدويًا عبر قناة التواصل الرسمية عند إعلانها.</p></div>
           </div>
         </div>
 
@@ -237,12 +235,12 @@ export default function HomePage() {
           </div>
           
           <div className="consent-list">
-            <label><input type="checkbox" required checked={form.privacyConsent} onChange={(e) => update("privacyConsent", e.target.checked)} /><span>أوافق على حفظ بياناتي واستخدامها للتواصل معي بشأن اهتمامي بالتسجيل، ويمكنني طلب تحديثها أو حذفها. <em>*</em></span></label>
+            <label><input type="checkbox" required checked={form.privacyConsent} onChange={(e) => update("privacyConsent", e.target.checked)} /><span>أوافق على إنشاء ملف يتضمن بياناتي على جهازي لغرض متابعة اهتمامي بالتسجيل. <em>*</em></span></label>
             <label><input type="checkbox" checked={form.contactConsent} onChange={(e) => update("contactConsent", e.target.checked)} /><span>أوافق على التواصل معي بخصوص استكمال ملف المورد ومنتجاته.</span></label>
           </div>
-          <button className="button button-primary submit-button" type="submit" disabled={isSubmitting}>{isSubmitting ? "جارٍ حفظ البيانات..." : "إرسال بيانات الاهتمام"} <span aria-hidden="true">←</span></button>
+          <button className="button button-primary submit-button" type="submit">إنشاء ملف CSV وتنزيله <span aria-hidden="true">←</span></button>
           {notice && <p className="form-notice" role="status" aria-live="polite">{notice}</p>}
-          <p className="form-footnote">نستخدم البيانات الأساسية للتواصل بشأن اهتمامك فقط. لا تدخل بيانات حساسة أو مستندات شخصية في هذا النموذج.</p>
+          <p className="form-footnote">حدود الحفظ: الملف يُنزّل على جهازك فقط. لا تصل البيانات إلى فريق KVRAT.ai تلقائيًا، ولا تُحفظ على خادم أو قاعدة بيانات. احتفظ بالملف في مكان آمن، ولا ترسله إلا عبر قناة رسمية موثوقة.</p>
         </form>
       </section>
 
