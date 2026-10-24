@@ -37,6 +37,7 @@ const workflow = [
 export default function HomePage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [notice, setNotice] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({
     fullName: "", companyName: "", companyType: "", phone: "", whatsapp: "",
     email: "", governorate: "", city: "", website: "", products: "",
@@ -47,9 +48,41 @@ export default function HomePage() {
     setForm((current) => ({ ...current, [field]: value }));
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setNotice("واجهة التسجيل جاهزة، لكن لم يتم إرسال بياناتك أو حفظها بعد لأن خدمة التسجيل الخلفية لم تُربط بهذا النموذج. لن نعرض تأكيد تسجيل غير حقيقي.");
+    setNotice("");
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/supplier-leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: form.fullName.trim(),
+          companyName: form.companyName.trim(),
+          phone: form.phone.trim(),
+          companyType: form.companyType,
+          governorate: form.governorate,
+          categories: selectedCategories,
+          privacyConsent: form.privacyConsent,
+          contactConsent: form.contactConsent,
+        }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(result.error || "تعذر حفظ البيانات الآن. حاول مرة أخرى لاحقًا.");
+      }
+      setNotice("تم حفظ بيانات اهتمامك بنجاح. سيحتفظ فريق KVRAT.ai ببياناتك للتواصل معك بشأن الخطوات التالية.");
+      setForm({
+        fullName: "", companyName: "", companyType: "", phone: "", whatsapp: "",
+        email: "", governorate: "", city: "", website: "", products: "",
+        coverage: "", notes: "", privacyConsent: false, contactConsent: false,
+      });
+      setSelectedCategories([]);
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : "حدث خطأ غير متوقع. حاول مرة أخرى.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -167,7 +200,7 @@ export default function HomePage() {
 
       <section className="supplier-band" id="for-suppliers">
         <div><span className="eyebrow eyebrow-light">للمصانع والموردين والتجار</span><h2>عرّفنا بنشاطك الآن،<br />واستعد للخطوة التالية.</h2></div>
-        <p>أدخل اسمك واسم شركتك ورقم هاتفك فقط للبدء. يمكنك إضافة نوع النشاط والمحافظة إن رغبت، وسنتواصل معك لاحقًا لاستكمال التفاصيل.</p>
+        <p>ابدأ باسمك واسم شركتك ورقم هاتفك فقط. نوع النشاط والمحافظة ومجالات التوريد اختيارية، ويمكنك استكمالها لاحقًا عند التواصل.</p>
         <a className="button button-white" href="#register">تسجيل بيانات المورد <span aria-hidden="true">←</span></a>
       </section>
 
@@ -175,7 +208,7 @@ export default function HomePage() {
         <div className="form-intro">
           <span className="eyebrow">تسجيل اهتمام الموردين</span>
           <h2>ابدأ بملف شركتك</h2>
-          <p>التسجيل المبدئي بسيط: ثلاثة حقول مطلوبة فقط — اسم المسؤول، واسم الشركة، ورقم الهاتف. بقية التفاصيل اختيارية ويمكن استكمالها لاحقًا.</p>
+          <p>أرسل ثلاث بيانات أساسية فقط: اسم المسؤول، واسم الشركة، ورقم هاتف للتواصل. نوع النشاط والمحافظة ومجالات التوريد اختيارية.</p>
           <div className="form-aside">
             <div className="aside-icon">01</div><div><b>بيانات واضحة</b><p>اسمك واسم الشركة ورقم هاتف للتواصل.</p></div>
           </div>
@@ -188,7 +221,7 @@ export default function HomePage() {
         </div>
 
         <form className="supplier-form" onSubmit={handleSubmit}>
-          <div className="form-heading"><div><span className="form-kicker">SUPPLIER PROFILE</span><h3>سجّل اهتمامك كمورد</h3><p>ابدأ بثلاثة بيانات فقط، واستكمل الباقي لاحقًا.</p></div><span className="required-note">* مطلوب</span></div>
+          <div className="form-heading"><div><span className="form-kicker">SUPPLIER PROFILE</span><h3>سجّل اهتمامك كمورد</h3><p>ثلاثة حقول أساسية فقط، والباقي اختياري.</p></div><span className="required-note">* مطلوب</span></div>
           <div className="field-grid">
             <label>اسم المسؤول <em>*</em><input required value={form.fullName} onChange={(e) => update("fullName", e.target.value)} placeholder="الاسم بالكامل" autoComplete="name" /></label>
             <label>اسم الشركة أو المصنع <em>*</em><input required value={form.companyName} onChange={(e) => update("companyName", e.target.value)} placeholder="الاسم التجاري" autoComplete="organization" /></label>
@@ -205,12 +238,12 @@ export default function HomePage() {
           </div>
           
           <div className="consent-list">
-            <label><input type="checkbox" required checked={form.privacyConsent} onChange={(e) => update("privacyConsent", e.target.checked)} /><span>أوافق على استخدام بيانات التواصل التي أدخلتها للرد على اهتمامي بالتسجيل، وفق سياسة الخصوصية المنشورة قبل تفعيل حفظ البيانات. <em>*</em></span></label>
+            <label><input type="checkbox" required checked={form.privacyConsent} onChange={(e) => update("privacyConsent", e.target.checked)} /><span>أوافق على حفظ بياناتي واستخدامها للتواصل معي بشأن اهتمامي بالتسجيل، ويمكنني طلب تحديثها أو حذفها. <em>*</em></span></label>
             <label><input type="checkbox" checked={form.contactConsent} onChange={(e) => update("contactConsent", e.target.checked)} /><span>أوافق على التواصل معي بخصوص استكمال ملف المورد ومنتجاته.</span></label>
           </div>
-          <button className="button button-primary submit-button" type="submit">متابعة التسجيل المبدئي <span aria-hidden="true">←</span></button>
-          {notice && <p className="form-notice" role="status">{notice}</p>}
-          <p className="form-footnote">تنبيه مهم: هذا النموذج غير متصل حاليًا بخدمة تحفظ البيانات أو ترسلها. لا تعتبر تعبئته تسجيلًا مكتملًا حتى يتم تفعيل الإرسال الفعلي.</p>
+          <button className="button button-primary submit-button" type="submit" disabled={isSubmitting}>{isSubmitting ? "جارٍ حفظ البيانات..." : "إرسال بيانات الاهتمام"} <span aria-hidden="true">←</span></button>
+          {notice && <p className="form-notice" role="status" aria-live="polite">{notice}</p>}
+          <p className="form-footnote">نستخدم البيانات الأساسية للتواصل بشأن اهتمامك فقط. لا تدخل بيانات حساسة أو مستندات شخصية في هذا النموذج.</p>
         </form>
       </section>
 
