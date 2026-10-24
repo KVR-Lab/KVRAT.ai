@@ -69,23 +69,23 @@ export default function HomePage() {
 
       <section className="hero" id="top">
         <div className="hero-copy">
-          <span className="eyebrow"><span className="eyebrow-dot" /> بوابتك إلى سوق توريدات أكثر اتصالًا</span>
-          <h1>خلّي منتجاتك أقرب<br />لـ <span>العميل المناسب.</span></h1>
-          <p className="hero-lead">KVRAT.ai تعمل على بناء منصة تربط المصانع والموردين والتجار بالعملاء في منظومة واحدة، بدايةً من قطاعات أدوات ومستلزمات التعبئة والتغليف.</p>
+          <span className="eyebrow"><span className="eyebrow-dot" /> تحت إشراف وإدارة K.V.R الدولية</span>
+          <h1>Nail Golden &amp; KVRAT.ai<br /><span>نربط الأسواق ونمكّن التجارة.</span></h1>
+          <p className="hero-lead">المنظومة الرقمية لربط وإدارة المنتجات النهائية بنظامي B2B وB2C، مع التركيز في المرحلة الأولى على بنها والقاهرة والجيزة والقليوبية، والاستفادة من أدوات التنبؤ بالطلب وإدارة سلاسل الإمداد الذكية.</p>
           <div className="hero-actions">
             <a className="button button-primary" href="#register">ابدأ تسجيل بيانات شركتك <span aria-hidden="true">←</span></a>
             <a className="button button-secondary" href="#how-it-works">اعرف آلية العمل</a>
           </div>
           <div className="hero-points">
-            <span><i>✓</i> بيانات شركتك ومنتجاتك</span>
-            <span><i>✓</i> تواصل مباشر عند الحاجة</span>
-            <span><i>✓</i> خطوات واضحة قبل النشر</span>
+            <span><i>✓</i> حلول للتجارة بين الشركات والعملاء</span>
+            <span><i>✓</i> إدارة الموردين والمنتجات</span>
+            <span><i>✓</i> توسع مرحلي للأسواق</span>
           </div>
         </div>
         <div className="hero-visual" aria-label="تصور بصري لمنظومة الموردين والمنتجات">
           <div className="visual-orbit orbit-one" />
           <div className="visual-orbit orbit-two" />
-          <div className="visual-core"><span className="core-k">K</span><b>KVRAT.ai</b><small>Business Network</small></div>
+          <div className="visual-core"><span className="core-k">K</span><b>Nail Golden</b><small>KVRAT.ai · Business Network</small></div>
           <div className="float-card float-card-top"><span className="float-icon orange-icon">▦</span><span><b>الموردون</b><small>مصانع · موزعون · تجار</small></span></div>
           <div className="float-card float-card-right"><span className="float-icon blue-icon">◇</span><span><b>كتالوج المنتجات</b><small>صور وأسعار وتفاصيل</small></span></div>
           <div className="float-card float-card-bottom"><span className="float-icon orange-icon">↗</span><span><b>طلبات الأسعار</b><small>قنوات تواصل أوضح</small></span></div>
@@ -94,7 +94,57 @@ export default function HomePage() {
       </section>
 
       <section className="trust-strip" aria-label="مجالات المنصة">
-        <span>مصانع</span><b>·</b><span>موردون</span><b>·</b><span>تجار جملة</span><b>·</b><span>موزعون</span><b>·</b><span>مستلزمات التعبئة والتغليف</span>
+        <span>B2B</span><b>·</b><span>B2C</span><b>·</b><span>الموردون</span><b>·</b><span>التجار</span><b>·</b><span>المنتجات النهائية</span><b>·</b><span>سلاسل الإمداد</span>
+      </section>
+
+      <section className="section workflow-section" id="early-access">
+        <div className="section-heading">
+          <span className="eyebrow">امتيازات الموردين والتجار المبكرين</span>
+          <h2>ابدأ مبكرًا مع <span>KVRAT.ai</span></h2>
+          <p>تستهدف هذه المرحلة بناء شبكة شركاء تجاريين وتجهيز ملفات الموردين قبل التوسع التشغيلي للمنصة.</p>
+        </div>
+        <div className="workflow-grid">
+          <article className="workflow-card">
+            <div className="step-top"><span className="step-number">01</span><span className="step-line" /></div>
+            <h3>إعفاء من رسوم الربط البرمجي</h3>
+            <p>للموردين والتجار المسجلين مبكرًا: إعفاء من رسوم الربط البرمجي مدى الحياة وفق الشروط التي تعتمدها المنصة وتوثقها في اتفاقية مكتوبة.</p>
+          </article>
+          <article className="workflow-card">
+            <div className="step-top"><span className="step-number">02</span><span className="step-line" /></div>
+            <h3>عمولات تفضيلية</h3>
+            <p>عمولات تفضيلية ثابتة للشركاء المبكرين، تُحدد تفاصيلها ونطاق تطبيقها في الشروط التجارية المعتمدة قبل بدء التشغيل.</p>
+          </article>
+          <article className="workflow-card">
+            <div className="step-top"><span className="step-number">03</span><span className="step-line" /></div>
+            <h3>تجهيز ملف شركتك</h3>
+            <p>سجّل بيانات الشركة ومجالات المنتجات والتغطية الجغرافية لتجهيز ملفك ومراجعته قبل إتاحة المنتجات عند إطلاق الخدمات.</p>
+          </article>
+        </div>
+      </section>
+
+      <section className="section workflow-section" id="platform-features">
+        <div className="section-heading">
+          <span className="eyebrow">منظومة التجارة الذكية</span>
+          <h2>من إدارة المنتجات إلى <span>سلاسل الإمداد</span></h2>
+          <p>تتطور الوظائف التشغيلية وفق مراحل بناء المنصة وتكامل خدماتها.</p>
+        </div>
+        <div className="workflow-grid">
+          <article className="workflow-card">
+            <div className="step-top"><span className="step-number">B2B</span><span className="step-line" /></div>
+            <h3>تطبيق الموردين</h3>
+            <p>تصور لإدارة المخزون والطلبات والأسعار وبيانات المنتجات للشركات والموردين.</p>
+          </article>
+          <article className="workflow-card">
+            <div className="step-top"><span className="step-number">AI</span><span className="step-line" /></div>
+            <h3>التنبؤ الذكي بالطلب</h3>
+            <p>تطوير تحليلات تساعد على تقدير الطلب المحلي ودعم قرارات التخطيط والتوريد؛ وتعتمد الدقة على توفر البيانات وجودتها.</p>
+          </article>
+          <article className="workflow-card">
+            <div className="step-top"><span className="step-number">B2C</span><span className="step-line" /></div>
+            <h3>سلاسل الإمداد الرقمية</h3>
+            <p>مسار مستهدف لتنسيق المخزون والتوصيل والتعاملات بين الشركات والعملاء، وفق الخدمات التي يتم تفعيلها فعليًا.</p>
+          </article>
+        </div>
       </section>
 
       <section className="section workflow-section" id="how-it-works">
@@ -172,8 +222,8 @@ export default function HomePage() {
       </section>
 
       <footer className="site-footer">
-        <a className="brand brand-footer" href="#top"><span className="brand-mark">K</span><span>KVRAT<span className="brand-dot">.ai</span><small>Build Once, Scale Forever</small></span></a>
-        <p>منظومة أعمال تربط الموردين بالفرص.</p>
+        <a className="brand brand-footer" href="#top"><span className="brand-mark">K</span><span>KVRAT<span className="brand-dot">.ai</span><small>Nail Golden · Business Network</small></span></a>
+        <p>Nail Golden &amp; KVRAT.ai · منظومة رقمية للتجارة وسلاسل الإمداد تحت إشراف K.V.R.</p>
         <a href="#top">العودة إلى الأعلى ↑</a>
         <small>© {new Date().getFullYear()} KVRAT.ai · جميع الحقوق محفوظة</small>
       </footer>
