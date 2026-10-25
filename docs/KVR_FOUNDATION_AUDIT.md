@@ -72,6 +72,8 @@ The workflow was copied to the canonical `.github/workflows/ci.yml` path with se
 
 ## 4. Verification status
 
+- GitHub Actions run [40229008219](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40229008219) started on draft PR #18 and failed at the `Setup pnpm` step because both the action input and root `package.json` specified a pnpm version (one as a semver and the other with an integrity suffix). Node setup, dependency install, build, and tests were skipped. The canonical workflow was subsequently changed to derive the version from `package.json`; the retry result is still pending.
+
 - Guard unit tests were added; they have **not** been run locally.
 - Build, lint, unit tests, and e2e tests could not be run in the current container because no checkout is present, pnpm is unavailable, and direct GitHub network access fails at DNS resolution.
 - The canonical GitHub Actions workflow is intended to run build and unit tests on the review pull request. Its actual outcome must be checked before considering this patch verified.
