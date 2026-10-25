@@ -48,8 +48,8 @@ export async function POST(request: Request) {
   }
 
   const contactPerson = cleanText(body.contactPerson);
-  const companyName = cleanText(body.companyName);
-  const businessType = cleanText(body.businessType);
+  const companyName = cleanText(body.companyName) ?? "";
+  const businessType = cleanText(body.businessType) ?? "";
   const phone = cleanText(body.phone);
   const governorate = cleanText(body.governorate) ?? "";
   const city = cleanText(body.city) ?? "";
