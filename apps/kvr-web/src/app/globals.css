@@ -44,7 +44,7 @@ button,a,input,select{ -webkit-tap-highlight-color:transparent}
 .float-card{position:absolute;z-index:3;display:flex;align-items:center;gap:10px;background:#fff;padding:13px 15px;border:1px solid #e5ebf3;border-radius:14px;box-shadow:0 12px 30px #123b6612;min-width:205px}
 .float-card b,.float-card small{display:block}.float-card b{font-size:12px;color:var(--blue)}.float-card small{font-size:9px;color:var(--muted);margin-top:3px}
 .float-card-top{top:50px;right:22px}.float-card-right{left:9px;top:45%}.float-card-bottom{bottom:43px;right:37px}
-.float-icon{width:37px;height:37px;border-radius:11px;display:grid;place-items:center;font-size:22px;font-weight:900}.orange-icon{color:var(--accent);background:#ECFAFF}.blue-icon{color:var(--blue);background:#eaf2fb}
+.float-icon{width:37px;height:37px;border-radius:11px;display:grid;place-items:center;font-size:22px;font-weight:900}.cyan-icon{color:var(--accent);background:#ECFAFF}.blue-icon{color:var(--blue);background:#eaf2fb}
 .visual-tag{position:absolute;bottom:14px;left:18px;color:#7c8ba0;font-size:9px;letter-spacing:.5px}
 .trust-strip{border-top:1px solid #edf1f6;border-bottom:1px solid #edf1f6;background:#fbfcfe;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:25px;padding:21px 20px;color:#64748b;font-size:12px;font-weight:700}
 .trust-strip b{color:var(--accent);font-size:17px}
