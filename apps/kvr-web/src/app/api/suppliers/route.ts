@@ -102,7 +102,7 @@ export async function POST(request: Request) {
     );
   }
 
-  if (email && (!validLength(email, 5, 254) || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email))) {
+  if (email && (!validLength(email, 5, 254) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) {
     return NextResponse.json({ error: "أدخل بريدًا إلكترونيًا صحيحًا أو اترك الحقل فارغًا." }, { status: 400 });
   }
 
@@ -140,7 +140,7 @@ export async function POST(request: Request) {
     products: products || null,
     product_categories: [...new Set(categories)],
     coverage: coverage || null,
-    notes: [jobTitle ? `الوظيفة: ${jobTitle}` : "", notes].filter(Boolean).join("\\n") || null,
+    notes: [jobTitle ? `الوظيفة: ${jobTitle}` : "", notes].filter(Boolean).join("\n") || null,
     privacy_consent: true,
     contact_consent: body.contactConsent === true,
   };
