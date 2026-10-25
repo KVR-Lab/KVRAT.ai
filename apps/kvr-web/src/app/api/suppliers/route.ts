@@ -52,6 +52,7 @@ export async function POST(request: Request) {
   const businessType = cleanText(body.businessType);
   const phone = cleanText(body.phone);
   const governorate = cleanText(body.governorate) ?? "";
+  const city = cleanText(body.city) ?? "";
   const jobTitle = cleanText(body.jobTitle) ?? "";
 
   if (
@@ -81,7 +82,6 @@ export async function POST(request: Request) {
 
   const whatsapp = cleanText(body.whatsapp) ?? "";
   const email = cleanText(body.email) ?? "";
-  const city = cleanText(body.city) ?? "";
   const website = cleanText(body.website) ?? "";
   const products = cleanText(body.products) ?? "";
   const coverage = cleanText(body.coverage) ?? "";
