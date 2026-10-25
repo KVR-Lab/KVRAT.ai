@@ -145,11 +145,11 @@ export async function POST(request: Request) {
   };
 
   try {
-    const response = await fetch(\`\${supabaseUrl}/rest/v1/suppliers\`, {
+    const response = await fetch(supabaseUrl + "/rest/v1/suppliers", {
       method: "POST",
       headers: {
         apikey: anonKey,
-        Authorization: \`Bearer \${anonKey}\`,
+        Authorization: "Bearer " + anonKey,
         "Content-Type": "application/json",
         Prefer: "return=minimal",
       },
