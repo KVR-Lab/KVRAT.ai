@@ -37,6 +37,7 @@ const workflow = [
 export default function HomePage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [notice, setNotice] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({
     fullName: "", companyName: "", companyType: "", phone: "", whatsapp: "",
     email: "", governorate: "", city: "", website: "", products: "",
@@ -47,9 +48,69 @@ export default function HomePage() {
     setForm((current) => ({ ...current, [field]: value }));
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setNotice("واجهة التسجيل جاهزة، لكن لم يتم إرسال بياناتك أو حفظها بعد لأن خدمة التسجيل الخلفية لم تُربط بهذا النموذج. لن نعرض تأكيد تسجيل غير حقيقي.");
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    setNotice("");
+
+    try {
+      const response = await fetch("/api/suppliers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contactPerson: form.fullName,
+          companyName: form.companyName,
+          businessType: form.companyType,
+          phone: form.phone,
+          whatsapp: form.whatsapp,
+          email: form.email,
+          governorate: form.governorate,
+          city: form.city,
+          website: form.website,
+          products: form.products,
+          productCategories: selectedCategories,
+          coverage: form.coverage,
+          notes: form.notes,
+          privacyConsent: form.privacyConsent,
+          contactConsent: form.contactConsent,
+        }),
+      });
+
+      const result = await response.json().catch(() => null);
+      if (!response.ok) {
+        setNotice(
+          typeof result?.error === "string"
+            ? result.error
+            : "تعذر حفظ البيانات حاليًا. لم يتم تأكيد التسجيل؛ حاول مرة أخرى لاحقًا.",
+        );
+        return;
+      }
+
+      setNotice("تم حفظ بيانات شركتك بنجاح في قاعدة بيانات KVRAT.ai. سيقوم الفريق بمراجعتها والتواصل معك عند الحاجة.");
+      setForm({
+        fullName: "",
+        companyName: "",
+        companyType: "",
+        phone: "",
+        whatsapp: "",
+        email: "",
+        governorate: "",
+        city: "",
+        website: "",
+        products: "",
+        coverage: "",
+        notes: "",
+        privacyConsent: false,
+        contactConsent: false,
+      });
+      setSelectedCategories([]);
+    } catch {
+      setNotice("تعذر الاتصال بخدمة التسجيل. لم يتم تأكيد الحفظ؛ حاول مرة أخرى لاحقًا.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -215,9 +276,9 @@ export default function HomePage() {
             <label><input type="checkbox" required checked={form.privacyConsent} onChange={(e) => update("privacyConsent", e.target.checked)} /><span>أقر بصحة البيانات التي أدخلتها، وأوافق على استخدامها للتواصل بشأن تسجيل الموردين وفق سياسة الخصوصية عند نشرها. <em>*</em></span></label>
             <label><input type="checkbox" checked={form.contactConsent} onChange={(e) => update("contactConsent", e.target.checked)} /><span>أوافق على التواصل معي بخصوص استكمال ملف المورد ومنتجاته.</span></label>
           </div>
-          <button className="button button-primary submit-button" type="submit">مراجعة بيانات النموذج <span aria-hidden="true">←</span></button>
+          <button className="button button-primary submit-button" type="submit" disabled={isSubmitting}>{isSubmitting ? "جارٍ حفظ البيانات..." : "إرسال بيانات الشركة"} <span aria-hidden="true">←</span></button>
           {notice && <p className="form-notice" role="status">{notice}</p>}
-          <p className="form-footnote">تنبيه: النموذج في هذه النسخة واجهة أولية فقط؛ لم يتم توصيله بخدمة خلفية لحفظ البيانات بعد.</p>
+          <p className="form-footnote">تُحفظ بيانات التسجيل في قاعدة بيانات KVRAT.ai، ولن يظهر تأكيد التسجيل إلا بعد نجاح الحفظ.</p>
         </form>
       </section>
 
