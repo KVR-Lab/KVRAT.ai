@@ -72,6 +72,8 @@ The workflow was copied to the canonical `.github/workflows/ci.yml` path with se
 
 ## 4. Verification status
 
+- Workflow run [40229119186](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40229119186) installed the frozen lockfile dependencies and passed `pnpm build`. The test step failed because `pnpm test -- --runInBand` supplied an extra separator and Jest interpreted `--runInBand` as a test pattern, returning “No tests found”; the actual configured spec pattern listed 7 matches before the erroneous pattern filtering. The workflow test command was corrected to `pnpm test --runInBand`. The next run must verify the tests themselves.
+
 - GitHub Actions run [40229008219](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40229008219) started on draft PR #18 and failed at the `Setup pnpm` step because both the action input and root `package.json` specified a pnpm version (one as a semver and the other with an integrity suffix). Node setup, dependency install, build, and tests were skipped. The canonical workflow was subsequently changed to derive the version from `package.json`; the retry result is still pending.
 
 - Guard unit tests were added; they have **not** been run locally.

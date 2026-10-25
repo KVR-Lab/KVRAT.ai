@@ -32,3 +32,7 @@
 - Draft PR #18 triggered workflow run [40229008219](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40229008219).
 - The first run failed during `Setup pnpm`: both the action input `version: 10.34.4` and root `package.json` `packageManager: pnpm@10.34.4+sha512...` declared a version. The action stopped before Node setup, dependency installation, build, and tests.
 - Corrected the canonical workflow to let `pnpm/action-setup@v4` derive the exact pinned version from `package.json`. The corrected workflow has not yet been verified by a subsequent run.
+
+### CI test-command follow-up
+- Workflow run [40229119186](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40229119186) installed dependencies and completed `pnpm build` successfully.
+- The test step failed because `pnpm test -- --runInBand` passed an extra separator to Jest, which treated `--runInBand` as a test-path pattern and found no matching tests. The test step is corrected to `pnpm test --runInBand`; rerun pending.
