@@ -51,19 +51,21 @@ export async function POST(request: Request) {
   const companyName = cleanText(body.companyName);
   const businessType = cleanText(body.businessType);
   const phone = cleanText(body.phone);
-  const governorate = cleanText(body.governorate);
+  const governorate = cleanText(body.governorate) ?? "";
+  const city = cleanText(body.city) ?? "";
+  const jobTitle = cleanText(body.jobTitle) ?? "";
 
   if (
     !contactPerson ||
-    !companyName ||
-    !businessType ||
     !phone ||
-    !governorate ||
+    !city ||
     !validLength(contactPerson, 2, 180) ||
-    !validLength(companyName, 2, 180) ||
-    !validLength(businessType, 1, 100) ||
+    !validLength(companyName, 0, 180) ||
+    !validLength(businessType, 0, 100) ||
     !validLength(phone, 7, 30) ||
-    !validLength(governorate, 2, 80)
+    !validLength(governorate, 0, 80) ||
+    !validLength(city, 2, 120) ||
+    !validLength(jobTitle, 2, 120)
   ) {
     return NextResponse.json(
       { error: "راجع الحقول المطلوبة وتأكد من إدخال بيانات صحيحة." },
@@ -80,7 +82,6 @@ export async function POST(request: Request) {
 
   const whatsapp = cleanText(body.whatsapp) ?? "";
   const email = cleanText(body.email) ?? "";
-  const city = cleanText(body.city) ?? "";
   const website = cleanText(body.website) ?? "";
   const products = cleanText(body.products) ?? "";
   const coverage = cleanText(body.coverage) ?? "";
@@ -101,8 +102,8 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!email || !validLength(email, 5, 254) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return NextResponse.json({ error: "البريد الإلكتروني مطلوب، وأدخل عنوانًا صحيحًا." }, { status: 400 });
+  if (email && (!validLength(email, 5, 254) || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email))) {
+    return NextResponse.json({ error: "أدخل بريدًا إلكترونيًا صحيحًا أو اترك الحقل فارغًا." }, { status: 400 });
   }
 
   if (website) {
@@ -133,13 +134,13 @@ export async function POST(request: Request) {
     phone,
     whatsapp: whatsapp || null,
     email: email || null,
-    governorate,
+    governorate: governorate || null,
     city: city || null,
     website: website || null,
     products: products || null,
     product_categories: [...new Set(categories)],
     coverage: coverage || null,
-    notes: notes || null,
+    notes: [jobTitle ? `الوظيفة: ${jobTitle}` : "", notes].filter(Boolean).join("\\n") || null,
     privacy_consent: true,
     contact_consent: body.contactConsent === true,
   };
