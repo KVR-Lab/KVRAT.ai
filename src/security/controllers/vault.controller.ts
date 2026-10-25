@@ -1,7 +1,9 @@
 import { Body, Controller, Post } from '@nestjs/common';
+import { RequireExecutionKey } from '../execution-access.guard';
 import { VaultService } from '../vault/vault.service';
 
 
+@RequireExecutionKey()
 @Controller('security/vault')
 export class VaultController {
 

@@ -1,6 +1,8 @@
 ﻿import { Body, Controller, Post } from '@nestjs/common';
+import { RequireExecutionKey } from '../security/execution-access.guard';
 import { ChatService } from './chat.service';
 
+@RequireExecutionKey()
 @Controller('chat')
 export class ChatController {
   constructor(

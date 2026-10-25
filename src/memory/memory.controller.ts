@@ -1,7 +1,9 @@
 import { Controller, Get, Delete } from '@nestjs/common';
+import { RequireExecutionKey } from '../security/execution-access.guard';
 import { MemoryService } from './memory.service';
 
 
+@RequireExecutionKey()
 @Controller('memory')
 export class MemoryController {
 

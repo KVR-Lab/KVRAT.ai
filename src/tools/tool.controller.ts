@@ -1,6 +1,8 @@
 import { Controller, Get, Post, Body } from "@nestjs/common";
+import { RequireExecutionKey } from '../security/execution-access.guard';
 import { ToolRegistry } from "./tool.registry";
 
+@RequireExecutionKey()
 @Controller("tools")
 export class ToolController {
 

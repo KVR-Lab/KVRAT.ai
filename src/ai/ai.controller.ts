@@ -1,6 +1,8 @@
 import { Body, Controller, Post } from '@nestjs/common';
+import { RequireExecutionKey } from '../security/execution-access.guard';
 import { AiService } from './ai.service';
 
+@RequireExecutionKey()
 @Controller('ai')
 export class AiController {
   constructor(private readonly ai: AiService) {}

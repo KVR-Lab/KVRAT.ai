@@ -1,6 +1,8 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { RequireExecutionKey } from '../security/execution-access.guard';
 import { ControlPlaneService } from './control-plane.service';
 
+@RequireExecutionKey()
 @Controller('control')
 export class ControlPlaneController {
 
