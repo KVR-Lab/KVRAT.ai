@@ -147,9 +147,9 @@ export default function HomePage() {
           <div className="visual-orbit orbit-one" />
           <div className="visual-orbit orbit-two" />
           <div className="visual-core"><span className="core-k">K</span><b>Nail Golden</b><small>KVRAT.ai · Business Network</small></div>
-          <div className="float-card float-card-top"><span className="float-icon orange-icon">▦</span><span><b>الموردون</b><small>مصانع · موزعون · تجار</small></span></div>
+          <div className="float-card float-card-top"><span className="float-icon cyan-icon">▦</span><span><b>الموردون</b><small>مصانع · موزعون · تجار</small></span></div>
           <div className="float-card float-card-right"><span className="float-icon blue-icon">◇</span><span><b>كتالوج المنتجات</b><small>صور وأسعار وتفاصيل</small></span></div>
-          <div className="float-card float-card-bottom"><span className="float-icon orange-icon">↗</span><span><b>طلبات الأسعار</b><small>قنوات تواصل أوضح</small></span></div>
+          <div className="float-card float-card-bottom"><span className="float-icon cyan-icon">↗</span><span><b>طلبات الأسعار</b><small>قنوات تواصل أوضح</small></span></div>
           <span className="visual-tag">منظومة واحدة، فرص أكثر</span>
         </div>
       </section>
