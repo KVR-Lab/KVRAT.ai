@@ -117,8 +117,8 @@ export default function HomePage() {
     <main>
       <header className="site-header">
         <a className="brand" href="#top" aria-label="KVRAT.ai الصفحة الرئيسية">
-          <span className="brand-mark">K</span>
-          <span>KVRAT<span className="brand-dot">.ai</span><small>منظومة أعمال مترابطة</small></span>
+          <img className="brand-logo" src="/kvrat-logo.svg" alt="KVRAT" width={132} height={32} />
+          <span className="brand-meta"><strong className="brand-dot">.ai</strong><small>منظومة أعمال مترابطة</small></span>
         </a>
         <nav className="main-nav" aria-label="التنقل الرئيسي">
           <a href="#how-it-works">آلية العمل</a>
@@ -256,7 +256,7 @@ export default function HomePage() {
             <label>نوع النشاط <em>*</em><select required value={form.companyType} onChange={(e) => update("companyType", e.target.value)}><option value="">اختر نوع النشاط</option>{companyTypes.map((item) => <option key={item}>{item}</option>)}</select></label>
             <label>رقم الهاتف <em>*</em><input required type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} placeholder="01xxxxxxxxx" autoComplete="tel" dir="ltr" /></label>
             <label>رقم واتساب<input type="tel" value={form.whatsapp} onChange={(e) => update("whatsapp", e.target.value)} placeholder="إن كان مختلفًا" dir="ltr" /></label>
-            <label>البريد الإلكتروني<input type="email" value={form.email} onChange={(e) => update("email", e.target.value)} placeholder="name@company.com" autoComplete="email" dir="ltr" /></label>
+            <label>البريد الإلكتروني <em>*</em><input required type="email" value={form.email} onChange={(e) => update("email", e.target.value)} placeholder="name@company.com" autoComplete="email" dir="ltr" /></label>
             <label>المحافظة <em>*</em><select required value={form.governorate} onChange={(e) => update("governorate", e.target.value)}><option value="">اختر المحافظة</option>{governorates.map((item) => <option key={item}>{item}</option>)}</select></label>
             <label>المدينة أو المنطقة<input value={form.city} onChange={(e) => update("city", e.target.value)} placeholder="المدينة / المنطقة الصناعية" /></label>
             <label className="field-full">الموقع الإلكتروني أو صفحة الشركة<input type="url" value={form.website} onChange={(e) => update("website", e.target.value)} placeholder="https://" dir="ltr" /></label>
@@ -283,7 +283,7 @@ export default function HomePage() {
       </section>
 
       <footer className="site-footer">
-        <a className="brand brand-footer" href="#top"><span className="brand-mark">K</span><span>KVRAT<span className="brand-dot">.ai</span><small>Nail Golden · Business Network</small></span></a>
+        <a className="brand brand-footer" href="#top"><img className="brand-logo" src="/kvrat-logo.svg" alt="KVRAT" width={112} height={28} /><span className="brand-meta"><strong className="brand-dot">.ai</strong><small>Nail Golden · Business Network</small></span></a>
         <p>Nail Golden &amp; KVRAT.ai · منظومة رقمية للتجارة وسلاسل الإمداد تحت إشراف K.V.R.</p>
         <a href="#top">العودة إلى الأعلى ↑</a>
         <small>© {new Date().getFullYear()} KVRAT.ai · جميع الحقوق محفوظة</small>
