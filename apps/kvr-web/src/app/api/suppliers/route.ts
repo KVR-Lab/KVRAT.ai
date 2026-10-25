@@ -101,8 +101,8 @@ export async function POST(request: Request) {
     );
   }
 
-  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return NextResponse.json({ error: "صيغة البريد الإلكتروني غير صحيحة." }, { status: 400 });
+  if (!email || !validLength(email, 5, 254) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return NextResponse.json({ error: "البريد الإلكتروني مطلوب، وأدخل عنوانًا صحيحًا." }, { status: 400 });
   }
 
   if (website) {
