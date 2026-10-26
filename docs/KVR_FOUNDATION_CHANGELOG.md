@@ -20,7 +20,8 @@
 
 ### Validation
 - No local project build, lint, unit test, or e2e test was run: the current container has no checkout, pnpm is not installed, and GitHub DNS resolution failed.
-- The GitHub Actions result from the review branch is the next verification source.
+- GitHub Actions run [40229251112](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40229251112) completed successfully on branch head `ee72eb2732487c7418119acfc6c1181d7aed44f6`; the build and configured test steps report success.
+- This CI result does not replace route-level end-to-end security verification or trusted-client integration.
 - No production deployment, production secret change, or merge to `main` was performed.
 
 ### Security and compatibility notes
