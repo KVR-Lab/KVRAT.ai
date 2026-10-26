@@ -52,3 +52,24 @@ Do not mark the foundation as fully verified until:
 | Side-effecting GET endpoint | FAIL | `GET /projects/kvrat/docs` invokes `writeReport()` in `src/projects/kvrat/kvrat.controller.ts` | Fix with compatibility review and regression test |
 | Final merge gate | BLOCKED | Security verification report | Do not merge until all blockers are closed |
 
+
+
+## Post-merge state correction — 2026-10-26
+
+This dated addendum supersedes stale statements about PR #18 being open/draft. The historic audit entries above are retained.
+
+| Requirement | Current status | Evidence | Remaining work |
+|---|---|---|---|
+| PR #18 merge state | PASS — merged | [PR #18](https://github.com/KVR-Lab/KVRAT.ai/pull/18), merged at 2026-10-26T09:03:10Z | None for merge-state fact |
+| Merge commit | PASS — identified | [`1e24c680074aa07cee9ddef3f3dbf10838d1bf1f`](https://github.com/KVR-Lab/KVRAT.ai/commit/1e24c680074aa07cee9ddef3f3dbf108d1bf1f) | Verify current `main` ref explicitly |
+| PR final head | PASS — identified | `de0f1c7b61b337226e2cfe4199bb14b13d6c1942` in live PR metadata | Keep distinct from earlier `b621ec1…` CI SHA |
+| CI build and configured tests | PASS for tested SHA only | Run [40278460138](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40278460138), successful steps on earlier head `b621ec1…` | CI on final head/merge not established by current evidence |
+| Guard source behavior | PASS — limited source/unit scope | `src/security/execution-access.guard.ts`, `src/security/execution-access.guard.spec.ts` | Add HTTP integration coverage |
+| Complete active sensitive-route inventory | BLOCKED | Controller review is not a resolved route-registration map | Enumerate every registered controller and alternate path |
+| Deny/allow over HTTP | BLOCKED | No HTTP integration run evidenced | Use isolated Nest app and fake service providers |
+| No side effects on denied requests | BLOCKED | No side-effect assertions executed | Add spies/fakes and verify counters/state unchanged |
+| Secret generation/storage/rotation and non-exposure | BLOCKED | Source does not prove operational secret handling | Inspect deployment config, server-side consumers, bundles and logs |
+| Side-effecting GET | FAIL | `src/projects/kvrat/kvrat.controller.ts`: GET docs route calls `writeReport()` | Fix on isolated branch with regression test and compatibility review |
+| Production behavior | BLOCKED | No production inspection or test evidence | Verify environment safely without using production secret in tests |
+
+**Current overall status: BLOCKED.** The merge state is factual; security acceptance is not complete.
