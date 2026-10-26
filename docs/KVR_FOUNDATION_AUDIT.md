@@ -80,3 +80,17 @@ The workflow was copied to the canonical `.github/workflows/ci.yml` path with se
 - Build, lint, unit tests, and e2e tests could not be run in the current container because no checkout is present, pnpm is unavailable, and direct GitHub network access fails at DNS resolution.
 - The canonical GitHub Actions workflow is intended to run build and unit tests on the review pull request. Its actual outcome must be checked before considering this patch verified.
 - No production deployment or production secret change was performed.
+
+
+## Post-merge state update — 2026-10-26
+
+This addendum updates the live state; it does not rewrite the historical pre-merge findings above.
+
+- PR #18 is closed and merged at `2026-10-26T09:03:10Z`: [PR #18](https://github.com/KVR-Lab/KVRAT.ai/pull/18).
+- Merge commit: [`1e24c680074aa07cee9ddef3f3dbf10838d1bf1f`](https://github.com/KVR-Lab/KVRAT.ai/commit/1e24c680074aa07cee9ddef3f3dbf10838d1bf1f).
+- Final PR head: `de0f1c7b61b337226e2cfe4199bb14b13d6c1942`. Earlier verification run 40278460138 was for `b621ec177044c221a25b06319d188eb281914a6e`; it must not be represented as a check on the final head or merge commit.
+- The newest commit returned by repository commit search was the merge commit. Because a direct `refs/heads/main` lookup is not exposed in the available connector actions, current main-ref equality is **BLOCKED pending explicit confirmation**.
+- PR #18 introduced the execution-key guard and unit tests, added controller-level decorators to the reviewed sensitive controllers, and restored the canonical workflow at `.github/workflows/ci.yml`. The PR changed 23 paths; see the PR changed-files view for the exact list.
+- The source-level finding remains: `GET /projects/kvrat/docs` invokes `writeReport()`. No code change has been made to correct it in this addendum.
+- No HTTP integration suite was executed here. No evidence currently establishes coverage of every active route, alternate path, denied-request side effects, key lifecycle, production exposure, or production runtime behavior.
+- **Current security conclusion: BLOCKED.** The successful CI run proves only that the configured steps succeeded on the SHA that run tested; it does not prove production security or complete route coverage.
