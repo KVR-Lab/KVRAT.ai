@@ -1,0 +1,50 @@
+# KVR Foundation Changelog
+
+## 2026-10-25 — Foundational execution boundary and CI discovery
+
+**Baseline:** `8ce90e8e320bfd316b43ec0e69edab16f692243e` (`main`)  
+**Working branch:** `foundation/execution-boundaries-2026-10-25`
+
+### Added
+- `src/security/execution-access.guard.ts`: fail-closed guard and decorator using a server-side execution key.
+- `src/security/execution-access.guard.spec.ts`: unit tests for missing, weak, absent, mismatched, array-valued, and matching key cases.
+- `docs/KVR_FOUNDATION_AUDIT.md`: evidence-based audit, baseline, risks, and verification limitations.
+- `docs/KVR_IMPLEMENTATION_REGISTER.md`: feature status and remaining acceptance criteria.
+- Canonical `.github/workflows/ci.yml` workflow file.
+- `docs/archive/root-dot-github-placeholder.txt`, preserving the original newline-only `.github` blob exactly.
+
+### Changed
+- Added `@RequireExecutionKey()` to reviewed privileged controller surfaces that expose tool execution, agent/chat execution, control-plane operations, project mutations, memory/knowledge control, security/identity access, or KVRAT project file generation.
+- Reordered CI setup so pnpm is installed before Node's pnpm cache setup.
+- Preserved the original `github/workflows/ci.yml` copy rather than deleting it.
+
+### Validation
+- No local project build, lint, unit test, or e2e test was run: the current container has no checkout, pnpm is not installed, and GitHub DNS resolution failed.
+- GitHub Actions run [40229251112](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40229251112) completed successfully on branch head `ee72eb2732487c7418119acfc6c1181d7aed44f6`; the build and configured test steps report success.
+- This CI result does not replace route-level end-to-end security verification or trusted-client integration.
+- No production deployment, production secret change, or merge to `main` was performed.
+
+### Security and compatibility notes
+- Configure `KVR_EXECUTION_API_KEY` only in a trusted server environment; use a random value of at least 32 UTF-8 bytes with no leading/trailing whitespace.
+- Trusted callers must send it in the `x-kvr-execution-key` header. Do not put the key in a public browser bundle or a `NEXT_PUBLIC_*` variable.
+- The guard provides shared-key route authorization only. It does not supply RBAC, individual identity, per-operation human approval, or durable audit records.
+
+### CI follow-up
+- Draft PR #18 triggered workflow run [40229008219](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40229008219).
+- The first run failed during `Setup pnpm`: both the action input `version: 10.34.4` and root `package.json` `packageManager: pnpm@10.34.4+sha512...` declared a version. The action stopped before Node setup, dependency installation, build, and tests.
+- Corrected the canonical workflow to let `pnpm/action-setup@v4` derive the exact pinned version from `package.json`. The corrected workflow has not yet been verified by a subsequent run.
+
+### CI test-command follow-up
+- Workflow run [40229119186](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40229119186) installed dependencies and completed `pnpm build` successfully.
+- The test step failed because `pnpm test -- --runInBand` passed an extra separator to Jest, which treated `--runInBand` as a test-path pattern and found no matching tests. The test step is corrected to `pnpm test --runInBand`; rerun pending.
+
+
+## 2026-10-26 — Security verification gate for PR #18
+
+- Rechecked PR #18 and confirmed it remained open, draft, and unmerged at head `b621ec177044c221a25b06319d188eb281914a6e`.
+- Confirmed [GitHub Actions run 40278460138](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40278460138) completed successfully on that exact SHA; install, build, and configured Jest steps succeeded.
+- Added `docs/KVR_SECURITY_VERIFICATION.md` with a bounded route inventory, guard review, test evidence, trust-boundary analysis, and explicit merge blockers.
+- Updated `docs/KVR_IMPLEMENTATION_REGISTER.md` with PASS/FAIL/BLOCKED statuses and evidence.
+- Confirmed source-level concern: `GET /projects/kvrat/docs` invokes `writeReport()`, a side effect under GET.
+- No application code changed; no integration tests were run in this review; no production secrets, real tools, deployment, or merge were used.
+- The documentation commits advance the PR head. The earlier CI success is evidence for the pre-documentation head only; the final updated head must receive its own CI run before merge.

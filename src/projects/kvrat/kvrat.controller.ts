@@ -1,6 +1,8 @@
 import { Controller, Get, Post } from "@nestjs/common";
+import { RequireExecutionKey } from '../../security/execution-access.guard';
 import { KvratService } from "./kvrat.service";
 
+@RequireExecutionKey()
 @Controller("projects/kvrat")
 export class KvratController {
 
