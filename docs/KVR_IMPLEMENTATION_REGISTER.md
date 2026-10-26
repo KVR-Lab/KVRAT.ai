@@ -27,3 +27,28 @@ Do not mark the foundation as fully verified until:
 3. Protected UI/API callers are integrated through a trusted server-side authentication boundary.
 4. Remaining high-impact execution routes are enumerated and reviewed.
 5. Task lifecycle/recovery is specified before implementing durable task storage.
+
+
+## Security Verification Gate — PR #18 (2026-10-26)
+
+**Reviewed head at gate start:** `b621ec177044c221a25b06319d188eb281914a6e`  
+**Evidence report:** [`docs/KVR_SECURITY_VERIFICATION.md`](KVR_SECURITY_VERIFICATION.md)  
+**Decision:** **BLOCKED — do not merge.**
+
+| Requirement | Status | Evidence | Remaining gap |
+|---|---|---|---|
+| Confirm PR state, branch, base, and exact head | PASS | PR #18 metadata: open, draft, unmerged; head `b621ec177044c221a25b06319d188eb281914a6e`; base `8ce90e8e320bfd316b43ec0e69edab16f692243e` | Re-check head after each future commit |
+| CI build and configured Jest suite | PASS (CI only) | [Run 40278460138](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40278460138), exact head SHA; install/build/test steps succeeded | CI does not prove route authorization or absence of side effects |
+| Guard denies missing key | PASS (unit-level) | `src/security/execution-access.guard.spec.ts`; current head CI succeeded | Add HTTP-level route tests |
+| Guard denies weak configured key | PASS (limited policy) | Unit test checks short key; source checks UTF-8 length >= 32 | Entropy/generation policy and whitespace test still missing |
+| Guard denies wrong key / malformed header | PASS (unit-level) | Unit tests for same-length mismatch, missing header, array header | Add invalid encoding/oversized input cases as appropriate |
+| Guard accepts correct key | PASS (unit-level) | Matching-key unit test | Must verify actual route accepts only the fake test service call |
+| Timing-safe equality | PASS (source review) | `timingSafeEqual` after equal-length check | Not a substitute for integration coverage |
+| No key hard-coded or returned by guard | PASS (narrow source review) | Guard reads server environment and does not log/return key | Whole-system logs, client bundles, deployment env and consumers not audited |
+| Complete active sensitive-route inventory | BLOCKED | Initial controller inventory in `KVR_SECURITY_VERIFICATION.md` | Resolve all imported modules, route registrations and alternate paths |
+| Route-level deny/allow integration tests | BLOCKED | None executed in this gate | Add isolated tests with test-only key and fake providers |
+| Rejected requests have no side effects | BLOCKED | Not dynamically tested | Assert handlers/fake side-effect counters remain untouched |
+| Trusted server-side caller and secret lifecycle | BLOCKED | No verified caller, generation/storage/rotation procedure | Document and validate server-only secret delivery; never expose to browser |
+| Side-effecting GET endpoint | FAIL | `GET /projects/kvrat/docs` invokes `writeReport()` in `src/projects/kvrat/kvrat.controller.ts` | Fix with compatibility review and regression test |
+| Final merge gate | BLOCKED | Security verification report | Do not merge until all blockers are closed |
+
