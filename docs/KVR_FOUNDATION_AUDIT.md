@@ -5,7 +5,7 @@
 **Baseline commit:** `8ce90e8e320bfd316b43ec0e69edab16f692243e`  
 **Working branch:** `foundation/execution-boundaries-2026-10-25`  
 **Audit mode:** Remote repository inspection; local build/test execution unavailable in the current runtime  
-**Status:** Implementation on an isolated branch; final verification pending automated checks.
+**Status:** Implementation is on an isolated draft pull request. GitHub Actions run [40229251112](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40229251112) completed successfully for the branch head `ee72eb2732487c7418119acfc6c1181d7aed44f6`; build and configured Jest test steps both report success. Local execution and end-to-end route verification remain unavailable.
 
 ## 1. Repository and environment baseline
 
@@ -57,7 +57,7 @@ Evidence reviewed:
 
 - The baseline tree contains `github/workflows/ci.yml`, not the required `.github/workflows/ci.yml` path.
 - The root `.github` entry was a tracked blob containing only a newline, which conflicts with creating a nested `.github/workflows` directory unless relocated.
-- The GitHub Actions API returned `total_count: 0` workflow runs at the time of inspection.
+- The GitHub Actions API returned `total_count: 0` workflow runs at the time of baseline inspection. After the workflow was restored on the feature branch, run [40229251112](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40229251112) completed successfully.
 - These findings are consistent with CI not being activated by the checked-in workflow path. The absence of runs alone does not prove every possible repository Actions setting.
 
 ## 3. Changes in this branch
@@ -72,9 +72,9 @@ The workflow was copied to the canonical `.github/workflows/ci.yml` path with se
 
 ## 4. Verification status
 
-- Workflow run [40229119186](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40229119186) installed the frozen lockfile dependencies and passed `pnpm build`. The test step failed because `pnpm test -- --runInBand` supplied an extra separator and Jest interpreted `--runInBand` as a test pattern, returning “No tests found”; the actual configured spec pattern listed 7 matches before the erroneous pattern filtering. The workflow test command was corrected to `pnpm test --runInBand`. The next run must verify the tests themselves.
+- Workflow run [40229119186](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40229119186) installed dependencies and passed `pnpm build`, but its test command failed because the extra `--` made Jest treat `--runInBand` as a test-path pattern. The workflow command was corrected to `pnpm test --runInBand`.
 
-- GitHub Actions run [40229008219](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40229008219) started on draft PR #18 and failed at the `Setup pnpm` step because both the action input and root `package.json` specified a pnpm version (one as a semver and the other with an integrity suffix). Node setup, dependency install, build, and tests were skipped. The canonical workflow was subsequently changed to derive the version from `package.json`; the retry result is still pending.
+- GitHub Actions run [40229008219](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40229008219) failed during pnpm setup because the action input and root `package.json` both specified pnpm versions. The workflow was corrected to derive the pinned version from `package.json`.
 
 - Guard unit tests were added; they have **not** been run locally.
 - Build, lint, unit tests, and e2e tests could not be run in the current container because no checkout is present, pnpm is unavailable, and direct GitHub network access fails at DNS resolution.
