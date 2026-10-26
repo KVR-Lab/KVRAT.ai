@@ -48,3 +48,15 @@
 - Confirmed source-level concern: `GET /projects/kvrat/docs` invokes `writeReport()`, a side effect under GET.
 - No application code changed; no integration tests were run in this review; no production secrets, real tools, deployment, or merge were used.
 - The documentation commits advance the PR head. The earlier CI success is evidence for the pre-documentation head only; the final updated head must receive its own CI run before merge.
+
+
+## 2026-10-26 — Post-merge recovery and validation status
+
+- Confirmed via live GitHub PR metadata that PR #18 was merged at `2026-10-26T09:03:10Z`.
+- Merge commit: `1e24c680074aa07cee9ddef3f3dbf10838d1bf1f`; final PR head: `de0f1c7b61b337226e2cfe4199bb14b13d6c1942`.
+- Earlier CI run [40278460138](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40278460138) succeeded for the earlier SHA `b621ec177044c221a25b06319d188eb281914a6e`; do not treat this as proof that the final PR head or merge commit was tested.
+- Updated the post-merge security state in `docs/KVR_SECURITY_VERIFICATION.md`, `docs/KVR_IMPLEMENTATION_REGISTER.md`, and `docs/KVR_FOUNDATION_AUDIT.md` through a follow-up branch. Historical pre-merge records are preserved.
+- Current `main` ref equality is still awaiting explicit branch-ref confirmation; the newest commit returned by repository commit search was the merge commit.
+- HTTP integration tests, full active-route mapping, alternate-path coverage, secret lifecycle/non-exposure checks, and production runtime verification were not run in this step.
+- Known defect remains: `GET /projects/kvrat/docs` invokes `writeReport()`.
+- No application code, production secret, deployment, or merge action was performed in this follow-up. Overall security status remains **BLOCKED**.
