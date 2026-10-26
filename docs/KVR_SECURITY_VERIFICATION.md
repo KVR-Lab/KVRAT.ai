@@ -125,3 +125,21 @@ A suitable follow-up test suite must use a test-only random key and mocked/fake 
 5. Document secure key generation, secret storage, rotation, and the server-side consumer; inspect client bundles and env naming for leakage.
 6. Re-run CI after any new commit and verify that the run's `head_sha` equals the final PR head.
 7. Re-review the complete diff. Keep PR #18 open and unmerged until all blockers are resolved.
+
+
+---
+
+## 9. Post-merge correction — 2026-10-26
+
+This section supersedes the **current-state** statements in earlier sections; earlier statements are retained as a historical record of the pre-merge review.
+
+- Live GitHub PR metadata: [PR #18](https://github.com/KVR-Lab/KVRAT.ai/pull/18) is **closed and merged**. `merged_at=2026-10-26T09:03:10Z`.
+- Merge commit: [`1e24c680074aa07cee9ddef3f3dbf10838d1bf1f`](https://github.com/KVR-Lab/KVRAT.ai/commit/1e24c680074aa07cee9ddef3f3dbf108d1bf1f). Commit message identifies PR #18.
+- The PR's final head was `de0f1c7b61b337226e2cfe4199bb14b13d6c1942`, not the initially reported `b621ec177044c221a25b06319d188eb281914a6e`. The latter was an earlier branch commit. Do not conflate PR head, merge commit, and current main head.
+- The commit search returned the merge commit as the newest repository commit at the time of this check. A direct branch-ref endpoint was not available in the connected action set; current-main-head confirmation is therefore **BLOCKED pending an explicit ref lookup**. The docs correction branch starts at the verified merge commit and does not modify `main`.
+- PR #18 changed these 23 paths: `.github/workflows/ci.yml`, `docs/KVR_FOUNDATION_AUDIT.md`, `docs/KVR_FOUNDATION_CHANGELOG.md`, `docs/KVR_IMPLEMENTATION_REGISTER.md`, `docs/KVR_SECURITY_VERIFICATION.md`, `docs/archive/root-dot-github-placeholder.txt`, controller files for agent, AI, bootstrap, chat, control-plane, knowledge (two controllers), memory, planner, KVRAT project docs, projects, security scan, vault, identity, tools, plus the guard and its unit test.
+- CI run [40278460138](https://github.com/KVR-Lab/KVRAT.ai/actions/runs/40278460138) had successful install, build, and configured Jest steps for the earlier PR head `b621ec177044c221a25b06319d188eb281914a6e`. It is **not** proof that the final PR head or merge commit was tested. The Actions lookup associated with merge commit returned no PR-triggered runs; this connector's query is limited and does not establish that no push run exists.
+- Guard source on `main` still uses server-side `KVR_EXECUTION_API_KEY`, rejects missing/trimmed/under-32-byte configured keys and non-string/mismatched headers, and uses `timingSafeEqual` for equal-length byte buffers. This proves source behavior only, not secret generation/storage/rotation or absence of exposure in deployed logs/bundles.
+- The controller inventory from the earlier review remains **partial**. HTTP integration tests, active route registration resolution, alternate-path tests, side-effect assertions, and production environment inspection remain **BLOCKED / NOT RUN**.
+- Known source-level defect remains: `GET /projects/kvrat/docs` invokes `writeReport()`, which has a write side effect.
+- **Current security decision: BLOCKED. Do not represent the gate as fully passed.** No code fix or production deployment was performed in this validation step.
