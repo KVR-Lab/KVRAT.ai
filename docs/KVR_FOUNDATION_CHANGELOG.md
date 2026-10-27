@@ -48,3 +48,12 @@
 - Confirmed source-level concern: `GET /projects/kvrat/docs` invokes `writeReport()`, a side effect under GET.
 - No application code changed; no integration tests were run in this review; no production secrets, real tools, deployment, or merge were used.
 - The documentation commits advance the PR head. The earlier CI success is evidence for the pre-documentation head only; the final updated head must receive its own CI run before merge.
+
+
+## 2026-10-27 — Supplier registration persistence incident
+
+- Production Vercel telemetry recorded 15 failures for `POST /api/suppliers` with upstream status 401. Supabase PostgreSQL logs at the matching request time recorded `new row violates row-level security policy for table "suppliers"`.
+- Root cause: the public INSERT RLS policy required company name, activity type, and governorate, while the approved minimal supplier form/API treats those values as optional. A privilege probe also found the `anon` role did not have INSERT table privilege.
+- Prepared isolated fix branch `fix/supplier-registration-rls-2026-10-27`: RLS/privilege migration, API request-size and notes bounds, safe upstream error-code logging, and mocked API tests wired into CI.
+- No production database migration or production deployment was performed as part of this change. End-to-end proof of a new database row remains pending approved migration application and test.
+- Incident details and evidence: `docs/incidents/2026-10-27-supplier-registration-persistence.md`.
