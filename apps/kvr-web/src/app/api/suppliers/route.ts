@@ -36,9 +36,19 @@ export async function POST(request: Request) {
     );
   }
 
+  const maxBodyBytes = 16 * 1024;
+  const declaredLength = Number(request.headers.get("content-length") ?? "0");
+  if (Number.isFinite(declaredLength) && declaredLength > maxBodyBytes) {
+    return NextResponse.json({ error: "حجم بيانات النموذج أكبر من المسموح." }, { status: 413 });
+  }
+
   let body: Record<string, unknown>;
   try {
-    const parsed: unknown = await request.json();
+    const rawBody = await request.text();
+    if (new TextEncoder().encode(rawBody).byteLength > maxBodyBytes) {
+      return NextResponse.json({ error: "حجم بيانات النموذج أكبر من المسموح." }, { status: 413 });
+    }
+    const parsed: unknown = JSON.parse(rawBody);
     if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
       return NextResponse.json({ error: "بيانات الطلب غير صالحة." }, { status: 400 });
     }
@@ -86,6 +96,7 @@ export async function POST(request: Request) {
   const products = cleanText(body.products) ?? "";
   const coverage = cleanText(body.coverage) ?? "";
   const notes = cleanText(body.notes) ?? "";
+  const storedNotes = [jobTitle ? `الوظيفة: ${jobTitle}` : "", notes].filter(Boolean).join("\\n");
 
   if (
     !validLength(whatsapp, 0, 30) ||
@@ -94,7 +105,8 @@ export async function POST(request: Request) {
     !validLength(website, 0, 500) ||
     !validLength(products, 0, 1000) ||
     !validLength(coverage, 0, 300) ||
-    !validLength(notes, 0, 1000)
+    !validLength(notes, 0, 1000) ||
+    !validLength(storedNotes, 0, 1000)
   ) {
     return NextResponse.json(
       { error: "أحد الحقول يتجاوز الطول المسموح به." },
@@ -140,7 +152,7 @@ export async function POST(request: Request) {
     products: products || null,
     product_categories: [...new Set(categories)],
     coverage: coverage || null,
-    notes: [jobTitle ? `الوظيفة: ${jobTitle}` : "", notes].filter(Boolean).join("\n") || null,
+    notes: storedNotes || null,
     privacy_consent: true,
     contact_consent: body.contactConsent === true,
   };
@@ -159,8 +171,19 @@ export async function POST(request: Request) {
     });
 
     if (!response.ok) {
+      const upstreamError: unknown = await response.clone().json().catch(() => null);
+      const upstreamCode =
+        upstreamError &&
+        typeof upstreamError === "object" &&
+        "code" in upstreamError &&
+        typeof upstreamError.code === "string" &&
+        /^[A-Z0-9]{4,8}$/.test(upstreamError.code)
+          ? upstreamError.code
+          : "unknown";
+      // Record only a stable code and HTTP status, never submitted fields or credentials.
       console.error("Supplier registration insert failed", {
         status: response.status,
+        code: upstreamCode,
       });
       return NextResponse.json(
         { error: "تعذر حفظ البيانات حاليًا. لم يتم تأكيد التسجيل؛ حاول مرة أخرى لاحقًا." },
