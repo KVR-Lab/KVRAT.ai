@@ -37,3 +37,6 @@ jobs:
 
       - name: Run tests
         run: pnpm test --runInBand
+
+      - name: Test supplier registration API
+        run: pnpm exec jest --config apps/kvr-web/jest.config.cjs --runInBand
