@@ -3,6 +3,9 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const MAX_REQUEST_BYTES = 16 * 1024;
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 const allowedCategories = new Set([
   "أدوات ومستلزمات التغليف",
   "ماكينات وخطوط التعبئة والتغليف",
@@ -36,9 +39,18 @@ export async function POST(request: Request) {
     );
   }
 
+  const contentLength = Number(request.headers.get("content-length") ?? "0");
+  if (Number.isFinite(contentLength) && contentLength > MAX_REQUEST_BYTES) {
+    return NextResponse.json({ error: "حجم بيانات الطلب أكبر من المسموح." }, { status: 413 });
+  }
+
   let body: Record<string, unknown>;
   try {
-    const parsed: unknown = await request.json();
+    const rawBody = await request.text();
+    if (new TextEncoder().encode(rawBody).byteLength > MAX_REQUEST_BYTES) {
+      return NextResponse.json({ error: "حجم بيانات الطلب أكبر من المسموح." }, { status: 413 });
+    }
+    const parsed: unknown = JSON.parse(rawBody);
     if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
       return NextResponse.json({ error: "بيانات الطلب غير صالحة." }, { status: 400 });
     }
@@ -47,6 +59,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "تعذر قراءة بيانات النموذج." }, { status: 400 });
   }
 
+  const submissionId = cleanText(body.submissionId);
   const contactPerson = cleanText(body.contactPerson);
   const companyName = cleanText(body.companyName) ?? "";
   const businessType = cleanText(body.businessType) ?? "";
@@ -56,6 +69,8 @@ export async function POST(request: Request) {
   const jobTitle = cleanText(body.jobTitle) ?? "";
 
   if (
+    !submissionId ||
+    !UUID_PATTERN.test(submissionId) ||
     !contactPerson ||
     !phone ||
     !city ||
@@ -87,10 +102,12 @@ export async function POST(request: Request) {
   const coverage = cleanText(body.coverage) ?? "";
   const notes = cleanText(body.notes) ?? "";
 
+  if (!validLength(whatsapp, 7, 30)) {
+    return NextResponse.json({ error: "أدخل رقم واتساب صحيحًا." }, { status: 400 });
+  }
+
   if (
-    !validLength(whatsapp, 0, 30) ||
     !validLength(email, 0, 254) ||
-    !validLength(city, 0, 120) ||
     !validLength(website, 0, 500) ||
     !validLength(products, 0, 1000) ||
     !validLength(coverage, 0, 300) ||
@@ -128,6 +145,7 @@ export async function POST(request: Request) {
     : [];
 
   const record = {
+    submission_id: submissionId,
     company_name: companyName,
     contact_person: contactPerson,
     business_type: businessType,
@@ -146,21 +164,32 @@ export async function POST(request: Request) {
   };
 
   try {
-    const response = await fetch(supabaseUrl + "/rest/v1/suppliers", {
+    const response = await fetch(supabaseUrl + "/rest/v1/suppliers?on_conflict=submission_id", {
       method: "POST",
       headers: {
         apikey: anonKey,
         Authorization: "Bearer " + anonKey,
         "Content-Type": "application/json",
-        Prefer: "return=minimal",
+        Prefer: "resolution=ignore-duplicates,return=minimal",
       },
       body: JSON.stringify(record),
       cache: "no-store",
     });
 
     if (!response.ok) {
+      const upstreamError: unknown = await response.clone().json().catch(() => null);
+      const upstreamCode =
+        upstreamError &&
+        typeof upstreamError === "object" &&
+        "code" in upstreamError &&
+        typeof upstreamError.code === "string" &&
+        /^[A-Z0-9]{4,8}$/.test(upstreamError.code)
+          ? upstreamError.code
+          : "unknown";
+      // Record only a stable code and HTTP status, never submitted fields or credentials.
       console.error("Supplier registration insert failed", {
         status: response.status,
+        code: upstreamCode,
       });
       return NextResponse.json(
         { error: "تعذر حفظ البيانات حاليًا. لم يتم تأكيد التسجيل؛ حاول مرة أخرى لاحقًا." },
