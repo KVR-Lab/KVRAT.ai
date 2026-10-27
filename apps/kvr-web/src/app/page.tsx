@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 
 const categories = [
   "أدوات ومستلزمات التغليف", "ماكينات وخطوط التعبئة والتغليف", "العبوات البلاستيكية",
@@ -21,12 +21,16 @@ export default function HomePage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [notice, setNotice] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const submissionIdRef = useRef<string | null>(null);
   const [form, setForm] = useState({ fullName:"", jobTitle:"", companyName:"", companyType:"", phone:"", whatsapp:"", email:"", governorate:"", city:"", website:"", products:"", coverage:"", notes:"", privacyConsent:false, contactConsent:false });
-  function update(field: keyof typeof form, value: string | boolean) { setForm(current => ({...current,[field]:value})); }
+  function update(field: keyof typeof form, value: string | boolean) { submissionIdRef.current = null; setForm(current => ({...current,[field]:value})); }
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); if (isSubmitting) return; setIsSubmitting(true); setNotice("");
     try {
+      const submissionId = submissionIdRef.current ?? crypto.randomUUID();
+      submissionIdRef.current = submissionId;
       const response = await fetch("/api/suppliers",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
+        submissionId,
         contactPerson:form.fullName, jobTitle:form.jobTitle, companyName:form.companyName, businessType:form.companyType,
         phone:form.phone, whatsapp:form.whatsapp, email:form.email, governorate:form.governorate, city:form.city,
         website:form.website, products:form.products, productCategories:selectedCategories, coverage:form.coverage,
@@ -34,6 +38,7 @@ export default function HomePage() {
       })});
       const result = await response.json().catch(()=>null);
       if (!response.ok) { setNotice(typeof result?.error==="string" ? result.error : "تعذر حفظ البيانات حاليًا. لم يتم تأكيد التسجيل؛ حاول مرة أخرى لاحقًا."); return; }
+      submissionIdRef.current = null;
       setNotice("تم حفظ بياناتك بنجاح. سيقوم فريق KVRAT.ai بمراجعتها والتواصل معك عند الحاجة.");
       setForm({fullName:"",jobTitle:"",companyName:"",companyType:"",phone:"",whatsapp:"",email:"",governorate:"",city:"",website:"",products:"",coverage:"",notes:"",privacyConsent:false,contactConsent:false}); setSelectedCategories([]);
     } catch { setNotice("تعذر الاتصال بخدمة التسجيل. لم يتم تأكيد الحفظ؛ حاول مرة أخرى لاحقًا."); }
@@ -105,7 +110,7 @@ export default function HomePage() {
           <label className="field-full">الموقع الإلكتروني أو صفحة الشركة <span className="optional">اختياري</span><input type="url" value={form.website} onChange={e=>update("website",e.target.value)} placeholder="https://" dir="ltr"/></label>
         </div>
         <div className="form-divider"/><div className="subsection-title"><h4>مجالات التوريد <span className="optional">اختياري</span></h4><p>يمكنك تجاوز هذا القسم الآن.</p></div>
-        <div className="category-grid">{categories.map(category=><label className="check-option" key={category}><input type="checkbox" checked={selectedCategories.includes(category)} onChange={e=>setSelectedCategories(current=>e.target.checked?[...current,category]:current.filter(x=>x!==category))}/><span className="custom-check">✓</span><span>{category}</span></label>)}</div>
+        <div className="category-grid">{categories.map(category=><label className="check-option" key={category}><input type="checkbox" checked={selectedCategories.includes(category)} onChange={e=>{submissionIdRef.current=null;setSelectedCategories(current=>e.target.checked?[...current,category]:current.filter(x=>x!==category));}}/><span className="custom-check">✓</span><span>{category}</span></label>)}</div>
         <div className="field-grid field-grid-bottom">
           <label className="field-full">أهم المنتجات أو الخدمات <span className="optional">اختياري</span><input value={form.products} onChange={e=>update("products",e.target.value)} placeholder="اكتب المنتجات أو الخدمات"/></label>
           <label>نطاق التغطية أو التوزيع <span className="optional">اختياري</span><input value={form.coverage} onChange={e=>update("coverage",e.target.value)} placeholder="مثال: جميع محافظات مصر"/></label>
