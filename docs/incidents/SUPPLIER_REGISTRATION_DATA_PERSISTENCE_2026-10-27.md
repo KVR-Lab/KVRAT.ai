@@ -47,12 +47,14 @@ A request-body size cap (16 KiB) is in the code patch. A **durable rate limit is
 ## Current verification state
 
 - Root cause evidence: **confirmed**.
-- Application and migration patch: **on review branch**.
-- Migration applied to live Supabase: **no**.
-- CI/build on this remediation branch: **not yet verified**.
+- Application and migration patch: **on draft PR #21**.
+- GitHub Actions run `40529549455`: **success** for install, root build, root tests, and supplier API regression tests on commit `c497c71f7cf5506d358e1d8d9fd8ffb0954175a1`.
+- Vercel preview deployment `dpl_95QeSveXz6nkhLvzRuPfepJiWXa5`: **READY**; optimized build completed without build error events.
+- Migration applied to live Supabase: **no**. The live migration history still contains only `add_supplier_registration_profile_fields` and `secure_supplier_registration`.
 - Synthetic record inserted: **no**.
 - Public deployed end-to-end persistence verified: **no**.
 - Production deployment or database policy was changed during investigation: **no**.
+- Durable request-count rate limiting: **not configured**; see known limitation above.
 
 Do not classify the incident as fixed until a registration from the deployed form has a corresponding confirmed row in the correct Supabase project.
 
