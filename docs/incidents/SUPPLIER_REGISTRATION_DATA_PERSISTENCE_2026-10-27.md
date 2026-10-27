@@ -55,3 +55,8 @@ A request-body size cap (16 KiB) is in the code patch. A **durable rate limit is
 - Production deployment or database policy was changed during investigation: **no**.
 
 Do not classify the incident as fixed until a registration from the deployed form has a corresponding confirmed row in the correct Supabase project.
+
+
+## Remaining control gap: request-count rate limiting
+
+The branch enforces a 16 KiB request-body limit and idempotency for repeated submissions with the same key. A reliable per-IP/request-count limit is **not** yet configured. The inspected Vercel firewall configuration endpoint returned `Config not found`; I did not create or overwrite live firewall settings without approval. Before treating security hardening as complete, configure/review a Vercel Firewall rate-limit rule scoped to `POST /api/suppliers` (or approve another shared rate-limit service). An in-memory limit would not be reliable across serverless instances and was not represented as a durable solution.
