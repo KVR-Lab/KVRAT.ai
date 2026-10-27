@@ -177,8 +177,19 @@ export async function POST(request: Request) {
     });
 
     if (!response.ok) {
+      const upstreamError: unknown = await response.clone().json().catch(() => null);
+      const upstreamCode =
+        upstreamError &&
+        typeof upstreamError === "object" &&
+        "code" in upstreamError &&
+        typeof upstreamError.code === "string" &&
+        /^[A-Z0-9]{4,8}$/.test(upstreamError.code)
+          ? upstreamError.code
+          : "unknown";
+      // Record only a stable code and HTTP status, never submitted fields or credentials.
       console.error("Supplier registration insert failed", {
         status: response.status,
+        code: upstreamCode,
       });
       return NextResponse.json(
         { error: "تعذر حفظ البيانات حاليًا. لم يتم تأكيد التسجيل؛ حاول مرة أخرى لاحقًا." },
