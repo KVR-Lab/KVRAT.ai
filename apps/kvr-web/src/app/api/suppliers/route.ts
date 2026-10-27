@@ -96,7 +96,7 @@ export async function POST(request: Request) {
   const products = cleanText(body.products) ?? "";
   const coverage = cleanText(body.coverage) ?? "";
   const notes = cleanText(body.notes) ?? "";
-  const storedNotes = [jobTitle ? `الوظيفة: ${jobTitle}` : "", notes].filter(Boolean).join("\\n");
+  const storedNotes = [jobTitle ? `الوظيفة: ${jobTitle}` : "", notes].filter(Boolean).join("\n");
 
   if (
     !validLength(whatsapp, 0, 30) ||
