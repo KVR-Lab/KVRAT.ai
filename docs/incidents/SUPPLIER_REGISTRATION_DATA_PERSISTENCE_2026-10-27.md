@@ -2,36 +2,56 @@
 
 ## Status at investigation time
 
-**Classification: PARTIALLY_FIXED — root cause confirmed; remediation is on a review branch and has not been deployed.** Production persistence must not be considered repaired until the migration is applied, the matching application is deployed through the approval process, and a test registration is verified in the same Supabase project.
+**Classification: PARTIALLY_FIXED — root cause is confirmed and a code/migration patch is prepared on a review branch, but production remains unremediated until the migration and application are approved, applied, deployed, and verified end-to-end.**
 
 ## Production evidence
 
 - Latest inspected Vercel production deployment: `dpl_HkuQa7fkNC8n1zzLwV4vZqqnV8H8`.
 - Deployment source ref/SHA: `main` / `1e24c680074aa07cee9ddef3f3dbf10838d1bf1f`.
-- The deployed page submits to `POST /api/suppliers`. The repository has no `/api/supplier-registration` or `/api/supplier-leads` route; those are not the current form endpoint.
+- The deployed form submits to `POST /api/suppliers`. Exact-path checks found no `/api/supplier-registration` or `/api/supplier-leads` route in the inspected main revision.
 - Production environment contains `SUPABASE_URL` and `SUPABASE_ANON_KEY`. The URL matches the inspected Supabase project, and the configured key matches its active legacy anon key. No key values are recorded here.
-- Supabase project `uiekcrowevzkybqrcloj` contains `public.suppliers` with RLS enabled. No `supplier_leads` table was found in the public schema.
-- The existing policy `supplier_public_insert_with_consent` allowed the `anon` role only when `company_name` had at least 2 characters, `business_type` at least 1, and `governorate` at least 2. The live form marks those fields optional and the API sends empty strings/null when they are omitted.
-- Independent privilege inspection also showed `anon` does **not** have table-level `INSERT` permission on `public.suppliers`. It has no `SELECT`, `UPDATE`, or `DELETE` permission either. This is why having an RLS INSERT policy was not enough to make inserts work.
-- Vercel's grouped production errors show `Supplier registration insert failed { status: 401 }` **15 times** on `/api/suppliers` over the inspected seven-day window, from 2026-10-25 17:41 UTC to 2026-10-27 13:46 UTC.
+- Supabase project `uiekcrowevzkybqrcloj` contains `public.suppliers` with RLS enabled and 4 existing rows at inspection. No `supplier_leads` table was found in the public schema.
+- The only policy returned for `public.suppliers` was `supplier_public_insert_with_consent`, an INSERT policy for role `anon`.
+- The existing policy required `company_name` length >= 2, `business_type` length >= 1, and `governorate` length >= 2. The live form marks all three optional; the API sends empty strings or NULL when omitted.
+- An effective-privilege query returned: `anon_can_insert=false`, `anon_can_select=false`, `anon_can_update=false`, `anon_can_delete=false`, `anon_schema_usage=true`. An RLS INSERT policy does not itself grant SQL INSERT permission; the public role had no effective INSERT grant.
+- Supabase edge logs recorded `POST /rest/v1/suppliers` at `2026-10-27T13:46:37.204Z`, HTTP 401, with PostgREST proxy error code `42501` (insufficient privilege). No request body or vendor data was copied into this report.
+- Vercel's grouped production errors show `Supplier registration insert failed { status: 401 }` 15 times on `/api/suppliers` from 2026-10-25 17:41 UTC through 2026-10-27 13:46 UTC. An older, different deployment also logged missing environment variables on `/api/supplier-registration`; that is not the endpoint in the inspected current form.
 
 ## Root cause
 
-The registration path reaches the correct API and Supabase project, but the database write is denied. The database role used by the API has no INSERT grant, and the existing RLS predicate contradicts the optional-first form contract. These are database privilege/policy defects, not a success-message-only or form-fetch-path issue.
+The form reaches the current API and the intended Supabase project. The write is denied by database permissions: the `anon` role has no effective INSERT grant. Even after adding that grant, the existing RLS predicate would still reject the ordinary optional-first form when company name, business type, or governorate is blank. Both database grant and policy alignment are addressed in the review migration; this is not a message-only fix.
 
 ## Remediation in this branch
 
-1. Add a database migration that adds a unique nullable `submission_id` for idempotent retries, grants the public anon role **INSERT only**, and recreates the INSERT policy around the actual required form contract. It does not grant read, update, or delete access.
-2. Make the API require a valid submission UUID, bound request bodies to 16 KiB, require the WhatsApp field the UI marks required, and use PostgREST `resolution=ignore-duplicates` on the unique submission key.
-3. Keep the current UI rule that success is shown only after an HTTP-success response; reuse the same submission key on retry and reset it after a successful save or a changed form.
+1. Add `submission_id uuid` with a nullable unique index so existing rows are unchanged and retries for the same form attempt are idempotent.
+2. Grant `anon` INSERT on only the columns used by the endpoint; do not grant SELECT, UPDATE, or DELETE. Keep the RLS check on required contact fields and consent, permit the profile fields already marked optional, and constrain category values and field lengths.
+3. Make the page reuse one generated submission UUID through retries, and reset it after success or when the user edits the form.
+4. Validate the UUID and body size on the server, require the WhatsApp value that the page marks required, and use PostgREST `resolution=ignore-duplicates` against the unique submission key.
+5. Preserve the existing generic failure message and continue returning success only after a successful/idempotent database response.
 
-## Verification plan and gate
+## Verification gate
 
-After review/approval, apply `supabase/migrations/20261027180000_fix_supplier_registration_insert_policy.sql` to the intended Supabase project, then deploy the matching application commit through the approved process. Verify:
-- `anon` can INSERT a valid synthetic registration but cannot SELECT, UPDATE, or DELETE supplier rows;
-- missing WhatsApp/consent, malformed submission UUID, and oversized bodies are rejected without an inserted row;
-- submitting the same `submission_id` twice produces one row and a success response for the retry;
-- the public deployed form returns success only after the database accepted or idempotently recognized that submission;
-- a query by the synthetic `submission_id` confirms the persisted row; then remove the synthetic record using an authorized administrative path and confirm it is gone.
+After review/approval, apply `supabase/migrations/20261027180000_fix_supplier_registration_insert_policy.sql` to the intended Supabase project, then deploy the matching application commit through the approved release process. Verify:
 
-**Not yet verified:** migration execution, CI/build on the remediation branch, successful insert using the new policy, repeated-request behavior against Supabase, or a successful submission from the public deployed page. No live test record was inserted and no production database policy or deployment was changed during this investigation.
+- A valid synthetic registration with optional fields blank returns success and creates exactly one row.
+- The same `submission_id` submitted again returns an idempotent success and does not create a second row.
+- Missing/invalid submission ID, missing WhatsApp/consent, invalid email/URL, invalid categories, and oversized request bodies are rejected and create no row.
+- `anon` can insert valid registrations but cannot SELECT, UPDATE, or DELETE supplier rows.
+- A Supabase query by the synthetic `submission_id` confirms the persisted record, after which an authorized administrative deletion removes only that synthetic record and a follow-up query confirms its absence.
+- The test is repeated through the public deployed page after deployment, not just against the API or a preview.
+
+## Known remaining limitation
+
+A request-body size cap (16 KiB) is in the code patch. A **durable rate limit is not configured or verified**. The project’s active Vercel Firewall configuration lookup returned “config not found”; implementing reliable distributed rate limiting requires an approved Vercel Firewall rule or a shared rate-limit store. Do not substitute an in-memory serverless counter and call it reliable.
+
+## Current verification state
+
+- Root cause evidence: **confirmed**.
+- Application and migration patch: **on review branch**.
+- Migration applied to live Supabase: **no**.
+- CI/build on this remediation branch: **not yet verified**.
+- Synthetic record inserted: **no**.
+- Public deployed end-to-end persistence verified: **no**.
+- Production deployment or database policy was changed during investigation: **no**.
+
+Do not classify the incident as fixed until a registration from the deployed form has a corresponding confirmed row in the correct Supabase project.
