@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useMemo, useState, type FormEvent } from "react";
+import { catalogSectors, catalogProductCount } from "../data/catalog";
 
 const categories = [
   "أدوات ومستلزمات التغليف", "ماكينات وخطوط التعبئة والتغليف", "العبوات البلاستيكية",
@@ -19,6 +20,8 @@ const journey = [
 
 export default function HomePage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [catalogQuery, setCatalogQuery] = useState("");
+  const filteredCatalog = useMemo(() => catalogSectors.map(sector => ({ ...sector, products: sector.products.filter(product => `${product} ${sector.name}`.includes(catalogQuery.trim())) })).filter(sector => sector.products.length > 0), [catalogQuery]);
   const [notice, setNotice] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({ fullName:"", jobTitle:"", companyName:"", companyType:"", phone:"", whatsapp:"", email:"", governorate:"", city:"", website:"", products:"", coverage:"", notes:"", privacyConsent:false, contactConsent:false });
@@ -49,41 +52,68 @@ export default function HomePage() {
         <span className="eyebrow"><i/>تحت إشراف وإدارة K.V.R الدولية</span>
         <p className="hero-brand">KVRAT.ai</p>
         <h1>نربط الأسواق<br/>ونمكّن التجارة.</h1>
-        <p className="hero-lead">شبكة رقمية تربط المصانع والموردين والتجار بالمنتجات والفرص التجارية. نبدأ من السوق المصري، ونبني تجربة أكثر وضوحًا لإدارة التوريد والتجارة بين الشركات والعملاء.</p>
-        <div className="hero-actions"><a className="button button-primary" href="#register">سجّل شركتك الآن <span>←</span></a><a className="button button-secondary" href="#how-it-works">اكتشف آلية العمل</a></div>
-        <div className="hero-points"><span><i>✓</i> تسجيل أولي سريع</span><span><i>✓</i> شبكة موردين ومنتجات</span><span><i>✓</i> توسع مرحلي</span></div>
+        <p className="hero-lead">سوق رقمي يربط المصانع والموردين والمستوردين والموزعين والتجار والعملاء بمنتجات من قطاعات متعددة. اكتشف مصادر التوريد، تعرّف على المنتجات، وابنِ فرصًا تجارية جديدة من مكان واحد. نبدأ من السوق المصري ونتوسع تدريجيًا.</p>
+        <div className="hero-actions"><a className="button button-primary" href="#catalog">اكتشف المنتجات <span>←</span></a><a className="button button-secondary" href="#register">انضم كمورد أو تاجر</a></div>
+        <div className="hero-points"><span><i>✓</i> 10 قطاعات تجارية مستهدفة</span><span><i>✓</i> 200 فئة منتج</span><span><i>✓</i> B2B وB2C</span></div>
       </div>
       <div className="hero-visual" aria-label="تصور بصري لمنظومة KVRAT.ai">
         <div className="visual-orbit orbit-one"/><div className="visual-orbit orbit-two"/>
         <div className="visual-core"><span className="core-k">K</span><b>KVRAT.ai</b><small>BUSINESS NETWORK</small></div>
         <div className="float-card float-card-top"><span className="float-icon">▦</span><span><b>شبكة الموردين</b><small>مصانع · موزعون · تجار</small></span></div>
-        <div className="float-card float-card-left"><span className="float-icon">◇</span><span><b>كتالوج المنتجات</b><small>صور وأسعار وتفاصيل</small></span></div>
+        <div className="float-card float-card-left"><span className="float-icon">◇</span><span><b>كتالوج متعدد القطاعات</b><small>منتجات ومصادر توريد متنوعة</small></span></div>
         <div className="float-card float-card-bottom"><span className="float-icon">↗</span><span><b>KFB للشحن</b><small>تصور لإدارة الشحن والتسليم</small></span></div>
         <span className="visual-tag">SUPPLY · COMMERCE · DELIVERY</span>
       </div>
     </section>
-    <section className="trust-strip"><span>B2B</span><b>·</b><span>B2C</span><b>·</b><span>الموردون</span><b>·</b><span>المنتجات</span><b>·</b><span>KFB للشحن</span><b>·</b><span>سلاسل الإمداد</span></section>
+    <section className="trust-strip"><span>10 قطاعات</span><b>·</b><span>200 فئة منتج مستهدفة</span><b>·</b><span>B2B</span><b>·</b><span>B2C</span><b>·</b><span>شبكة الموردين</span><b>·</b><span>سلاسل الإمداد</span></section>
+    <section className="section catalog-section" id="catalog">
+      <div className="section-heading">
+        <span className="eyebrow">دليل المنتجات والقطاعات</span>
+        <h2>اكتشف ما تبحث عنه، <span>في سوق واحد</span></h2>
+        <p>كتالوج القطاعات المستهدفة على KVRAT.ai، من مستلزمات التغليف والمواد الخام إلى المنتجات الغذائية والمنزلية والمنسوجات. يتم نشر المنتجات والعروض الفعلية بعد انضمام الموردين ومراجعة بياناتها.</p>
+      </div>
+      <div className="catalog-toolbar">
+        <label className="catalog-search">
+          <span aria-hidden="true">⌕</span>
+          <input value={catalogQuery} onChange={event => setCatalogQuery(event.target.value)} placeholder="ابحث عن منتج أو قطاع..." aria-label="ابحث عن منتج أو قطاع" />
+          {catalogQuery && <button type="button" onClick={() => setCatalogQuery("")}>مسح</button>}
+        </label>
+        <span className="catalog-total">{catalogProductCount} فئة منتج ضمن {catalogSectors.length} قطاعات</span>
+      </div>
+      {filteredCatalog.length > 0 ? <div className="catalog-grid">
+        {filteredCatalog.map((sector, index) => <article className="catalog-card" key={sector.name}>
+          <div className="catalog-card-head"><span className="catalog-icon">{sector.icon}</span><span className="catalog-count">{sector.products.length} منتج</span></div>
+          <h3>{sector.name}</h3>
+          <p>منتجات ومستلزمات ومصادر توريد ضمن هذا القطاع.</p>
+          <details open={Boolean(catalogQuery)}>
+            <summary>{catalogQuery ? "نتائج البحث" : "استعرض المنتجات"} <span>＋</span></summary>
+            <ul>{sector.products.map(product => <li key={product}>{product}</li>)}</ul>
+          </details>
+        </article>)}
+      </div> : <p className="catalog-empty">لا توجد نتائج مطابقة. جرّب كلمة بحث أخرى.</p>}
+      <p className="catalog-disclaimer">تنويه: هذه الفئات تمثل نطاق الكتالوج المستهدف، ولا تعني أن جميع المنتجات متاحة للبيع حاليًا. توافر كل منتج يعتمد على انضمام المورد واعتماد بياناته ونشر عرضه.</p>
+    </section>
     <section className="section" id="early-access">
-      <div className="section-heading"><span className="eyebrow">شركاء المرحلة الأولى</span><h2>ابدأ مبكرًا مع <span>KVRAT.ai</span></h2><p>جهّز ملف شركتك الآن لتكون ضمن شبكة الموردين التي نعمل على بنائها قبل إطلاق الخدمات التشغيلية.</p></div>
+      <div className="section-heading"><span className="eyebrow">شركاء المرحلة الأولى</span><h2>حوّل منتجاتك إلى فرص تجارية مع <span>KVRAT.ai</span></h2><p>نستهدف بناء شبكة موردين تغطي قطاعات متعددة، وتساعد المصانع والشركات على عرض منتجاتها والوصول إلى مشترين جدد مع تطور خدمات المنصة.</p></div>
       <div className="workflow-grid three">
-        <article className="workflow-card"><span className="step-number">01</span><h3>ملف تجاري جاهز</h3><p>سجّل بيانات التواصل الأساسية دون إلزامك بملء كل تفاصيل الشركة أو المنتجات من البداية.</p></article>
-        <article className="workflow-card"><span className="step-number">02</span><h3>فرص للشركاء المبكرين</h3><p>تُعلن الشروط التجارية والمزايا المعتمدة بوضوح قبل بدء تطبيقها، دون وعود غير موثقة.</p></article>
-        <article className="workflow-card"><span className="step-number">03</span><h3>قابلية التوسع</h3><p>تجهيز تدريجي لبيانات الموردين والمنتجات والتغطية بما يناسب مراحل تشغيل المنصة.</p></article>
+        <article className="workflow-card"><span className="step-number">01</span><h3>اعرض منتجاتك</h3><p>جهّز بيانات شركتك والمنتجات التي توفرها لتكون مؤهلًا للظهور ضمن القطاع المناسب بعد مراجعة الملف.</p></article>
+        <article className="workflow-card"><span className="step-number">02</span><h3>وصول إلى قطاعات متنوعة</h3><p>عرّف المشترين بنشاطك ومنتجاتك، وساعدهم على اكتشاف مصادر التوريد المناسبة لاحتياجاتهم.</p></article>
+        <article className="workflow-card"><span className="step-number">03</span><h3>نمو تدريجي ومنظم</h3><p>تتوسع المنصة في القطاعات والمنتجات والخدمات وفق جاهزية الموردين والوظائف التشغيلية المعتمدة.</p></article>
       </div>
     </section>
     <section className="section features-section" id="platform-features">
-      <div className="section-heading"><span className="eyebrow">منظومة مترابطة</span><h2>من المنتج إلى العميل، <span>بمسار أوضح</span></h2><p>تجربة مستهدفة تربط بيانات الموردين بالمنتجات وطلبات الشراء والخدمات اللوجستية.</p></div>
+      <div className="section-heading"><span className="eyebrow">منظومة مترابطة</span><h2>من اكتشاف المنتج إلى <span>فرصة التوريد</span></h2><p>منظومة تستهدف ربط المنتجات بمصادرها، وجمع أطراف التجارة في رحلة أكثر وضوحًا.</p></div>
       <div className="workflow-grid three">
-        <article className="workflow-card"><span className="step-number">K</span><h3>كتالوج المنتجات</h3><p>تهيئة بيانات المنتجات والأسعار والصور لإتاحة عرض تجاري منظم عند تفعيل الخدمة.</p><div className="mini-flow">مصنع · مورد · تاجر · عميل</div></article>
-        <article className="workflow-card"><span className="step-number">B2B / B2C</span><h3>شبكة التجارة</h3><p>ربط المصانع والموردين والتجار والعملاء ضمن رحلة تجارية مترابطة بين الشركات والعملاء.</p></article>
-        <article className="workflow-card"><span className="step-number">KFB</span><h3>نظام KFB للشحن</h3><p>مسار مقترح لتنظيم طلبات الشحن وتتبع الحالات وربط الموردين بخيارات التوصيل. هذه الوظائف تصور مستقبلي وليست خدمة تشغيلية مؤكدة حاليًا.</p></article>
+        <article className="workflow-card"><span className="step-number">K</span><h3>كتالوج متعدد القطاعات</h3><p>تصنيف المنتجات حسب القطاعات لتسهيل اكتشافها والوصول إلى الموردين، مع نشر العروض بعد مراجعتها.</p><div className="mini-flow">مصنع · مورد · تاجر · عميل</div></article>
+        <article className="workflow-card"><span className="step-number">B2B / B2C</span><h3>شبكة الأعمال والتجارة</h3><p>ربط المصانع والموردين والمستوردين والموزعين وتجار الجملة والتجزئة والعملاء ضمن شبكة واحدة.</p></article>
+        <article className="workflow-card"><span className="step-number">KFB</span><h3>KFB للخدمات اللوجستية</h3><p>مسار تطوير مستهدف لدعم الشحن والتسليم وربط أطراف التوريد. خدمات KFB التشغيلية تخضع لمراحل التطوير والإطلاق.</p></article>
       </div>
     </section>
     <section className="section journey-section" id="how-it-works">
-      <div className="section-heading"><span className="eyebrow">رحلة المورد</span><h2>ابدأ ببيانات أساسية، <span>وأكمل لاحقًا</span></h2><p>لا تحتاج إلى تجهيز كل معلومات الشركة قبل تسجيل الاهتمام.</p></div>
+      <div className="section-heading"><span className="eyebrow">رحلة الانضمام</span><h2>من تسجيل الشركة إلى <span>عرض المنتجات</span></h2><p>مسار تدريجي لتجهيز ملفك التجاري وإضافة منتجاتك وفق جاهزية أدوات المنصة.</p></div>
       <div className="workflow-grid four">{journey.map(item=><article className="workflow-card" key={item[0]}><span className="step-number">{item[0]}</span><h3>{item[1]}</h3><p>{item[2]}</p></article>)}</div>
     </section>
-    <section className="supplier-band" id="for-suppliers"><div><span className="eyebrow eyebrow-light">للمصانع والموردين والتجار</span><h2>عرّفنا بك وبنشاطك.<br/>الباقي يمكن استكماله لاحقًا.</h2></div><p>نحتاج في التسجيل الأولي إلى وسيلة تواصل واسم المسؤول ووظيفته والمدينة. بقية البيانات اختيارية لتقليل وقت التسجيل.</p><a className="button button-white" href="#register">ابدأ التسجيل <span>←</span></a></section>
+    <section className="supplier-band" id="for-suppliers"><div><span className="eyebrow eyebrow-light">للمصانع والموردين والمستوردين والتجار</span><h2>منتجاتك تستحق سوقًا أوسع.<br/>ابدأ بتجهيز ملفك التجاري.</h2></div><p>نحتاج في التسجيل الأولي إلى وسيلة تواصل واسم المسؤول ووظيفته والمدينة. بقية البيانات اختيارية لتقليل وقت التسجيل.</p><a className="button button-white" href="#register">ابدأ التسجيل <span>←</span></a></section>
     <section className="section form-section" id="register">
       <div className="form-intro"><span className="eyebrow">تسجيل اهتمام الموردين</span><h2>ابدأ من هنا.</h2><p>نموذج مختصر لتسجيل بياناتك الأساسية. الحقول ذات العلامة * فقط مطلوبة، ويمكنك ترك بقية الحقول فارغة واستكمالها لاحقًا.</p>
         <div className="form-aside"><span className="aside-icon">01</span><div><b>الحد الأدنى المطلوب</b><p>اسم المسؤول، وظيفته، الهاتف، واتساب، والمدينة.</p></div></div>
@@ -117,6 +147,6 @@ export default function HomePage() {
         <p className="form-footnote">تُرسل البيانات إلى خادم KVRAT.ai وتُحفظ فقط إذا نجح الاتصال بقاعدة البيانات. لا تُدخل معلومات حساسة غير مطلوبة.</p>
       </form>
     </section>
-    <footer className="site-footer"><a className="brand brand-footer" href="#top"><span className="brand-word">KVRAT<span>.ai</span><small>Business Network</small></span><span className="brand-symbol">K</span></a><p>KVRAT.ai · منظومة رقمية للتجارة وسلاسل الإمداد تحت إشراف K.V.R.</p><a href="#top">العودة إلى الأعلى ↑</a><small>© {new Date().getFullYear()} KVRAT.ai · جميع الحقوق محفوظة</small></footer>
+    <footer className="site-footer"><a className="brand brand-footer" href="#top"><span className="brand-word">KVRAT<span>.ai</span><small>Business Network</small></span><span className="brand-symbol">K</span></a><p>KVRAT.ai · سوق رقمي متعدد القطاعات للتجارة والتوريد، تحت إشراف K.V.R.</p><a href="#top">العودة إلى الأعلى ↑</a><small>© {new Date().getFullYear()} KVRAT.ai · جميع الحقوق محفوظة</small></footer>
   </main>;
 }
