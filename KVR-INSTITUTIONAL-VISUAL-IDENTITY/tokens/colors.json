@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "status": "NEEDS_REVIEW",
+    "note": "مجمّع من المصادر والأصول المفحوصة دون دمج قسري أو اعتماد نهائي؛ يتطلب قرارًا مؤسسيًا لكل نطاق"
+  },
+  "verified_assets_reference": {
+    "kvrat_logo_primary_png": {
+      "path": "apps/kvr-web/public/brand/kvrat-logo-primary.png",
+      "format": "PNG",
+      "dimensions_px": "1446x2048",
+      "size_bytes": 259938,
+      "sha256": "f85058e80f7e1966db625328d8f5114580d3615a57208a7fef5ab7d209c73952",
+      "verification_status": "VERIFIED",
+      "approval_status": "NEEDS_REVIEW"
+    }
+  },
+  "project_specific": {
+    "kvrat_cover_store": {
+      "status": "NEEDS_REVIEW",
+      "deep_industrial_blue": "#123B66",
+      "dynamic_orange": "#F97316",
+      "hover_blue": "#0E2F52",
+      "hover_orange": "#EA580C",
+      "surface": "#F8FAFC",
+      "white": "#FFFFFF"
+    }
+  },
+  "brand_palettes": {
+    "kvrat_warm_b2b_reference": {
+      "status": "NEEDS_REVIEW",
+      "warm_1": "#C7280C",
+      "warm_2": "#D24210",
+      "warm_3": "#E77419",
+      "warm_4": "#F7941D"
+    },
+    "kvrat_cool_b2c_reference": {
+      "status": "NEEDS_REVIEW",
+      "cool_1": "#01E5F4",
+      "cool_2": "#02C6E5",
+      "cool_3": "#01A8D7",
+      "cool_4": "#018AC8"
+    },
+    "gold_accent": {
+      "status": "NEEDS_REVIEW",
+      "gold": "#D4AF37"
+    }
+  },
+  "kafroto_reference_colors": {
+    "status": "PENDING_ORIGINAL_SOURCE_RECOVERY",
+    "orange_primary": "#FF6B00",
+    "orange_light": "#FFA043",
+    "cyan_accent": "#00A8CC",
+    "navy_dark": "#0F2537",
+    "boot_dark": "#081C2C",
+    "suit_teal": "#0088A8",
+    "status_green": "#00E676"
+  }
+}
