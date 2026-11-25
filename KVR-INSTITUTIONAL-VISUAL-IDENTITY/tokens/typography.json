@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "status": "NEEDS_REVIEW",
+    "note": "مرجع أولي للخطوط المذكورة في المصادر والوثائق؛ الأوزان والمقاسات وقواعد RTL/LTR النهائية تخضع للمراجعة والاعتماد المؤسسي"
+  },
+  "referenced_families": [
+    {
+      "family": "Aldhabi",
+      "scope": "kvrat_brand_spec_reference",
+      "verification_status": "VERIFIED_IN_SPEC",
+      "approval_status": "NEEDS_REVIEW"
+    },
+    {
+      "family": "ElMessiri",
+      "aliases": ["El Messiri"],
+      "scope": "kvrat_brand_spec_reference",
+      "verification_status": "VERIFIED_IN_SPEC",
+      "approval_status": "NEEDS_REVIEW"
+    }
+  ],
+  "pending_specifications": {
+    "weights": "NEEDS_REVIEW",
+    "font_sizes": "NEEDS_REVIEW",
+    "line_heights": "NEEDS_REVIEW",
+    "direction_rules": {
+      "rtl_ltr": "NEEDS_REVIEW"
+    },
+    "role_mapping": {
+      "headings": "NEEDS_REVIEW",
+      "body": "NEEDS_REVIEW",
+      "numerals_and_code": "NEEDS_REVIEW"
+    }
+  }
+}
